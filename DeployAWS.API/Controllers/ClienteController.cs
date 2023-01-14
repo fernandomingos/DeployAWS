@@ -42,7 +42,7 @@ namespace DeployAWS.API.Controllers
                     return NotFound();
 
                 applicationServiceCliente.Add(clienteDTO);
-                return Ok("Cliente Cadastrado com sucesso!");
+                return Ok("Cliente cadastrado com sucesso!");
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace DeployAWS.API.Controllers
                     return NotFound();
 
                 applicationServiceCliente.Update(clienteDTO);
-                return Ok("Cliente Atualizado com sucesso!");
+                return Ok("Cliente atualizado com sucesso!");
             }
             catch (Exception)
             {
@@ -82,7 +82,7 @@ namespace DeployAWS.API.Controllers
                     return NotFound();
 
                 applicationServiceCliente.Remove(clienteDTO);
-                return Ok("Cliente Removido com sucesso!");
+                return Ok("Cliente removido com sucesso!");
             }
             catch (Exception ex)
             {
