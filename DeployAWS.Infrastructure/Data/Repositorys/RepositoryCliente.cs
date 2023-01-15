@@ -5,12 +5,12 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
 {
     public class RepositoryCliente : RepositoryBase<Cliente>, IRepositoryCliente
     {
-        private readonly SqlContext sqlContext;
+        private readonly AppDbContext _appDbContext;
 
-        public RepositoryCliente(SqlContext sqlContext)
-            : base(sqlContext)
+        public RepositoryCliente(AppDbContext appDbContext)
+            : base(appDbContext)
         {
-            this.sqlContext = sqlContext;
+            _appDbContext = appDbContext;
         }
     }
 }

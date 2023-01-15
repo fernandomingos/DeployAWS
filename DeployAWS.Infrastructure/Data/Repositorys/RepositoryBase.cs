@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using DeployAWS.Domain.Core.Interfaces.Repositorys;
-using System;
+﻿using DeployAWS.Domain.Core.Interfaces.Repositorys;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,46 +7,46 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
 {
     public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
     {
-        private readonly SqlContext sqlContext;
+        private readonly AppDbContext _appDbContext;
 
-        public RepositoryBase(SqlContext sqlContext)
+        public RepositoryBase(AppDbContext appDbContext)
         {
-            this.sqlContext = sqlContext;
+            _appDbContext = appDbContext;
         }
 
         public void Add(TEntity obj)
         {
             try
             {
-                sqlContext.Set<TEntity>().Add(obj);
-                sqlContext.SaveChanges();
+                _appDbContext.Set<TEntity>().Add(obj);
+                _appDbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
         public IEnumerable<TEntity> GetAll()
         {
-            return sqlContext.Set<TEntity>().ToList();
+            return _appDbContext.Set<TEntity>().ToList();
         }
 
         public TEntity GetById(int id)
         {
-            return sqlContext.Set<TEntity>().Find(id);
+            return _appDbContext.Set<TEntity>().Find(id);
         }
 
         public void Remove(TEntity obj)
         {
             try
             {
-                sqlContext.Set<TEntity>().Remove(obj);
-                sqlContext.SaveChanges();
+                _appDbContext.Set<TEntity>().Remove(obj);
+                _appDbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -55,12 +54,12 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
         {
             try
             {
-                sqlContext.Entry(obj).State = EntityState.Modified;
-                sqlContext.SaveChanges();
+                _appDbContext.Entry(obj).State = EntityState.Modified;
+                _appDbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
     }

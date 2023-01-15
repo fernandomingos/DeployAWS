@@ -1,4 +1,6 @@
 using Autofac;
+using DeployAWS.Infrastructure.CrossCutting.IOC;
+using DeployAWS.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,8 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using DeployAWS.Infrastructure.CrossCutting.IOC;
-using DeployAWS.Infrastructure.Data;
 
 namespace DeployAWS.API
 {
@@ -24,8 +24,9 @@ namespace DeployAWS.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["SqlConnection:SqlConnectionString"];
-            services.AddDbContext<SqlContext>(options => options.UseSqlServer(connection));
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContextPool<AppDbContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
+
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddSwaggerGen(c =>
@@ -34,7 +35,7 @@ namespace DeployAWS.API
             });
         }
 
-        public void ConfigureContainer(ContainerBuilder builder) 
+        public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterModule(new ModuleIOC());
         }

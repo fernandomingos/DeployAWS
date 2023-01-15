@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DeployAWS.Application.Dtos;
+﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace DeployAWS.API.Controllers
@@ -44,10 +43,9 @@ namespace DeployAWS.API.Controllers
                 applicationServiceProduto.Add(produtoDTO);
                 return Ok("O produto foi cadastrado com sucesso");
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                throw;
             }
         }
 
@@ -65,10 +63,9 @@ namespace DeployAWS.API.Controllers
                 return Ok("O produto foi atualizado com sucesso!");
 
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                throw;
             }
         }
 
@@ -85,10 +82,9 @@ namespace DeployAWS.API.Controllers
                 return Ok("O produto foi removido com sucesso!");
 
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                throw;
             }
         }
     }

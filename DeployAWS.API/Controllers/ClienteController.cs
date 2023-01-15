@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DeployAWS.Application.Dtos;
+﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace DeployAWS.API.Controllers
@@ -44,10 +43,9 @@ namespace DeployAWS.API.Controllers
                 applicationServiceCliente.Add(clienteDTO);
                 return Ok("Cliente cadastrado com sucesso!");
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                throw;
             }
 
 
@@ -65,9 +63,8 @@ namespace DeployAWS.API.Controllers
                 applicationServiceCliente.Update(clienteDTO);
                 return Ok("Cliente atualizado com sucesso!");
             }
-            catch (Exception)
+            catch
             {
-
                 throw;
             }
         }
@@ -84,12 +81,10 @@ namespace DeployAWS.API.Controllers
                 applicationServiceCliente.Remove(clienteDTO);
                 return Ok("Cliente removido com sucesso!");
             }
-            catch (Exception ex)
+            catch
             {
-
-                throw ex;
+                throw;
             }
-
         }
     }
 }

@@ -5,12 +5,12 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
 {
     public class RepositoryProduto : RepositoryBase<Produto>, IRepositoryProduto
     {
-        private readonly SqlContext sqlContext;
+        private readonly AppDbContext _appDbContext;
 
-        public RepositoryProduto(SqlContext sqlContext)
-            : base(sqlContext)
+        public RepositoryProduto(AppDbContext appDbContext)
+            : base(appDbContext)
         {
-            this.sqlContext = sqlContext;
+            _appDbContext = appDbContext;
         }
     }
 }

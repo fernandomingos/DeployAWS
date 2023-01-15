@@ -22,6 +22,7 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
             builder.RegisterType<ServiceProduto>().As<IServiceProduto>();
             builder.RegisterType<RepositoryCliente>().As<IRepositoryCliente>();
             builder.RegisterType<RepositoryProduto>().As<IRepositoryProduto>();
+
             builder.Register(ctx => new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new DtoToModelMappingCliente());
@@ -32,9 +33,9 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
             }));
 
             builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>().InstancePerLifetimeScope();
-        }
 
-        #endregion IOC
+            #endregion IOC
+        }
     }
 
 }
