@@ -16,12 +16,12 @@ phases:
         commands:
             - echo Build started on `date`
             - dotnet build -c Release
-           # - dotnet test -c Release --logger trx --results-directory ./DeployAWS.Tests
+            - dotnet test -c Release --logger trx --results-directory ./testresults
       
     post_build:
         commands:
             - echo Publish started on `date`
-            - dotnet publish -c Release  -r linux-x64 -o ./build_output ./${PROJECT}.API.csproj --self-contained false
+            - dotnet publish -c Release  -r linux-x64 -o ./build_output ./${PROJECT}/${PROJECT}.API.csproj --self-contained false
 
 artifacts:
     files:
