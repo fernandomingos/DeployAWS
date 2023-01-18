@@ -27,11 +27,12 @@ namespace DeployAWS.API
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContextPool<AppDbContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 
+            services.AddHealthChecks();
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Deploy AWS", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HealthCheck", Version = "v1" });
             });
         }
 
@@ -51,7 +52,7 @@ namespace DeployAWS.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Deploy AWS");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HealthCheck v1");
             });
 
             app.UseHttpsRedirection();
@@ -64,6 +65,8 @@ namespace DeployAWS.API
             {
                 endpoints.MapControllers();
             });
+
+            app.UseHealthChecks("/healthcheck");
         }
     }
 }
