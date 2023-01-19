@@ -28,8 +28,9 @@ namespace DeployAWS.Domain.Services
             return repository.GetById(id);
         }
 
-        public void Remove(TEntity obj)
+        public void Remove(int id)
         {
+            var obj = repository.GetById(id);
             repository.Remove(obj);
         }
 

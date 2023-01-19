@@ -9,7 +9,7 @@ namespace DeployAWS.Application.Interfaces
 
         void Update(ProdutoDto produtoDto);
 
-        void Remove(ProdutoDto produtoDto);
+        bool Remove(int id);
 
         IEnumerable<ProdutoDto> GetAll();
 

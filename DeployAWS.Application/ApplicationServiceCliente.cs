@@ -9,46 +9,52 @@ namespace DeployAWS.Application
 {
     public class ApplicationServiceCliente : IApplicationServiceCliente
     {
-        private readonly IServiceCliente serviceCliente;
-        private readonly IMapper mapper;
-        public ApplicationServiceCliente(IServiceCliente serviceCliente
-                                       , IMapper mapper)
+        private readonly IServiceCliente _serviceCliente;
+        private readonly IMapper _mapper;
+        public ApplicationServiceCliente(IServiceCliente serviceCliente, IMapper mapper)
         {
-            this.serviceCliente = serviceCliente;
-            this.mapper = mapper;
+            _serviceCliente = serviceCliente;
+            _mapper = mapper;
         }
+
         public void Add(ClienteDto clienteDto)
         {
-            var cliente = mapper.Map<Cliente>(clienteDto);
-            serviceCliente.Add(cliente);
+            var cliente = _mapper.Map<Cliente>(clienteDto);
+            _serviceCliente.Add(cliente);
         }
 
         public IEnumerable<ClienteDto> GetAll()
         {
-            var clientes = serviceCliente.GetAll();
-            var clientesDto = mapper.Map<IEnumerable<ClienteDto>>(clientes);
+            var clientes = _serviceCliente.GetAll();
+            var clientesDto = _mapper.Map<IEnumerable<ClienteDto>>(clientes);
 
             return clientesDto;
         }
 
         public ClienteDto GetById(int id)
         {
-            var cliente = serviceCliente.GetById(id);
-            var clienteDto = mapper.Map<ClienteDto>(cliente);
+            var cliente = _serviceCliente.GetById(id);
+            var clienteDto = _mapper.Map<ClienteDto>(cliente);
 
             return clienteDto;
         }
 
-        public void Remove(ClienteDto clienteDto)
+        public bool Remove(int id)
         {
-            var cliente = mapper.Map<Cliente>(clienteDto);
-            serviceCliente.Remove(cliente);
+            var cliente = _serviceCliente.GetById(id);
+
+            if (cliente == null)
+                return false;
+
+            _serviceCliente.Remove(id);
+
+            return true;
         }
 
         public void Update(ClienteDto clienteDto)
         {
-            var cliente = mapper.Map<Cliente>(clienteDto);
-            serviceCliente.Update(cliente);
+            var cliente = _mapper.Map<Cliente>(clienteDto);
+            _serviceCliente.Update(cliente);
         }
     }
 }

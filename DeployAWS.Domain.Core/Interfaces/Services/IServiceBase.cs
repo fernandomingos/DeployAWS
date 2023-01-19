@@ -8,7 +8,7 @@ namespace DeployAWS.Domain.Core.Interfaces.Services
 
         void Update(TEntity obj);
 
-        void Remove(TEntity obj);
+        void Remove(int id);
 
         IEnumerable<TEntity> GetAll();
 
