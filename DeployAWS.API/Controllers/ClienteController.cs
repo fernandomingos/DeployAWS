@@ -1,9 +1,9 @@
 ﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace DeployAWS.API.Controllers
 {
@@ -12,12 +12,14 @@ namespace DeployAWS.API.Controllers
     public class ClientesController : ControllerBase
     {
 
-        private readonly IApplicationServiceCliente applicationServiceCliente;
+        private readonly IApplicationServiceCliente _applicationServiceCliente;
+        private readonly IValidator<ClienteDto> _validator;
 
 
-        public ClientesController(IApplicationServiceCliente applicationServiceCliente)
+        public ClientesController(IApplicationServiceCliente applicationServiceCliente, IValidator<ClienteDto> validator)
         {
-            this.applicationServiceCliente = applicationServiceCliente;
+            _applicationServiceCliente = applicationServiceCliente;
+            _validator = validator;
         }
         // GET api/values
         [HttpGet]
@@ -25,13 +27,13 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                return Ok(applicationServiceCliente.GetAll());
+                return Ok(_applicationServiceCliente.GetAll());
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }
@@ -47,13 +49,13 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                return Ok(applicationServiceCliente.GetById(id));
+                return Ok(_applicationServiceCliente.GetById(id));
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }
@@ -72,14 +74,21 @@ namespace DeployAWS.API.Controllers
                 if (clienteDTO == null)
                     return NotFound();
 
-                applicationServiceCliente.Add(clienteDTO);
+                var result = _validator.Validate(clienteDTO);
+
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.Errors);
+                }
+
+                _applicationServiceCliente.Add(clienteDTO);
                 return Ok("Cliente cadastrado com sucesso!");
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }
@@ -98,14 +107,21 @@ namespace DeployAWS.API.Controllers
                 if (clienteDTO == null)
                     return NotFound();
 
-                applicationServiceCliente.Update(clienteDTO);
+                var result = _validator.Validate(clienteDTO);
+
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.Errors);
+                }
+
+                _applicationServiceCliente.Update(clienteDTO);
                 return Ok("Cliente atualizado com sucesso!");
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }
@@ -124,7 +140,7 @@ namespace DeployAWS.API.Controllers
                 if (id == 0)
                     return NotFound();
 
-                var deleted = applicationServiceCliente.Remove(id);
+                var deleted = _applicationServiceCliente.Remove(id);
 
                 if (deleted)
                     return Ok("Cliente removido com sucesso!");
@@ -135,7 +151,7 @@ namespace DeployAWS.API.Controllers
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }

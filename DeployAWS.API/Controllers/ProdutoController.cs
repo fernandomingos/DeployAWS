@@ -1,9 +1,9 @@
 ﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace DeployAWS.API.Controllers
 {
@@ -11,11 +11,13 @@ namespace DeployAWS.API.Controllers
     [ApiController]
     public class ProdutosController : ControllerBase
     {
-        private readonly IApplicationServiceProduto applicationServiceProduto;
+        private readonly IApplicationServiceProduto _applicationServiceProduto;
+        private readonly IValidator<ProdutoDto> _validator;
 
-        public ProdutosController(IApplicationServiceProduto applicationServiceProduto)
+        public ProdutosController(IApplicationServiceProduto applicationServiceProduto, IValidator<ProdutoDto> validator)
         {
-            this.applicationServiceProduto = applicationServiceProduto;
+            _applicationServiceProduto = applicationServiceProduto;
+            _validator = validator;
         }
 
         // GET api/values
@@ -24,13 +26,13 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                return Ok(applicationServiceProduto.GetAll());
+                return Ok(_applicationServiceProduto.GetAll());
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }
@@ -46,13 +48,13 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                return Ok(applicationServiceProduto.GetById(id));
+                return Ok(_applicationServiceProduto.GetById(id));
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }
@@ -71,15 +73,22 @@ namespace DeployAWS.API.Controllers
                 if (produtoDTO == null)
                     return NotFound();
 
+                var result = _validator.Validate(produtoDTO);
 
-                applicationServiceProduto.Add(produtoDTO);
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.Errors);
+                }
+
+                _applicationServiceProduto.Add(produtoDTO);
+
                 return Ok("O produto foi cadastrado com sucesso");
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }
@@ -93,21 +102,27 @@ namespace DeployAWS.API.Controllers
         [HttpPut]
         public ActionResult Put([FromBody] ProdutoDto produtoDTO)
         {
-
             try
             {
                 if (produtoDTO == null)
                     return NotFound();
 
-                applicationServiceProduto.Update(produtoDTO);
-                return Ok("O produto foi atualizado com sucesso!");
+                var result = _validator.Validate(produtoDTO);
 
+                if (!result.IsValid) 
+                {
+                    return BadRequest(result.Errors);
+                }
+
+                _applicationServiceProduto.Update(produtoDTO);
+
+                return Ok("O produto foi atualizado com sucesso!");
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }
@@ -126,19 +141,19 @@ namespace DeployAWS.API.Controllers
                 if (id == 0)
                     return NotFound();
 
-                var deleted = applicationServiceProduto.Remove(id);
+                var deleted = _applicationServiceProduto.Remove(id);
 
                 if (deleted)
-                    return Ok("Cliente removido com sucesso!");
+                    return Ok("Produto removido com sucesso!");
                 else
-                    return BadRequest("Cliente informado não existe!");
+                    return BadRequest("Id do produto informado não existe!");
 
             }
             catch (ArgumentException arg)
             {
                 return BadRequest(arg);
             }
-            catch (ValidationException val)
+            catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
                 return BadRequest(val);
             }

@@ -1,4 +1,5 @@
 using Autofac;
+using DeployAWS.API.Configurations;
 using DeployAWS.Infrastructure.CrossCutting.IOC;
 using DeployAWS.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,7 @@ namespace DeployAWS.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HealthCheck", Version = "v1" });
             });
+            services.AddDependencyInjectionSetup();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
