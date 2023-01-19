@@ -1,7 +1,9 @@
 ﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeployAWS.API.Controllers
 {
@@ -20,14 +22,44 @@ namespace DeployAWS.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return Ok(applicationServiceProduto.GetAll());
+            try
+            {
+                return Ok(applicationServiceProduto.GetAll());
+            }
+            catch (ArgumentException arg)
+            {
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         // GET api/values/5\
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return Ok(applicationServiceProduto.GetById(id));
+            try
+            {
+                return Ok(applicationServiceProduto.GetById(id));
+            }
+            catch (ArgumentException arg)
+            {
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         // POST api/values
@@ -43,9 +75,17 @@ namespace DeployAWS.API.Controllers
                 applicationServiceProduto.Add(produtoDTO);
                 return Ok("O produto foi cadastrado com sucesso");
             }
-            catch
+            catch (ArgumentException arg)
             {
-                throw;
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
             }
         }
 
@@ -63,28 +103,48 @@ namespace DeployAWS.API.Controllers
                 return Ok("O produto foi atualizado com sucesso!");
 
             }
-            catch
+            catch (ArgumentException arg)
             {
-                throw;
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
             }
         }
 
         // DELETE api/values/5
-        [HttpDelete()]
-        public ActionResult Delete([FromBody] ProdutoDto produtoDTO)
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
         {
             try
             {
-                if (produtoDTO == null)
+                if (id == 0)
                     return NotFound();
 
-                applicationServiceProduto.Remove(produtoDTO);
-                return Ok("O produto foi removido com sucesso!");
+                var deleted = applicationServiceProduto.Remove(id);
+
+                if (deleted)
+                    return Ok("Cliente removido com sucesso!");
+                else
+                    return BadRequest("Cliente informado não existe!");
 
             }
-            catch
+            catch (ArgumentException arg)
             {
-                throw;
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
             }
         }
     }

@@ -1,7 +1,9 @@
 ﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeployAWS.API.Controllers
 {
@@ -21,14 +23,44 @@ namespace DeployAWS.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return Ok(applicationServiceCliente.GetAll());
+            try
+            {
+                return Ok(applicationServiceCliente.GetAll());
+            }
+            catch (ArgumentException arg)
+            {
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return Ok(applicationServiceCliente.GetById(id));
+            try
+            {
+                return Ok(applicationServiceCliente.GetById(id));
+            }
+            catch (ArgumentException arg)
+            {
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         // POST api/values
@@ -43,12 +75,18 @@ namespace DeployAWS.API.Controllers
                 applicationServiceCliente.Add(clienteDTO);
                 return Ok("Cliente cadastrado com sucesso!");
             }
-            catch
+            catch (ArgumentException arg)
             {
-                throw;
+                return BadRequest(arg);
             }
-
-
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         // PUT api/values/5
@@ -63,27 +101,47 @@ namespace DeployAWS.API.Controllers
                 applicationServiceCliente.Update(clienteDTO);
                 return Ok("Cliente atualizado com sucesso!");
             }
-            catch
+            catch (ArgumentException arg)
             {
-                throw;
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
             }
         }
 
         // DELETE api/values/5
-        [HttpDelete()]
-        public ActionResult Delete([FromBody] ClienteDto clienteDTO)
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
         {
             try
             {
-                if (clienteDTO == null)
+                if (id == 0)
                     return NotFound();
 
-                applicationServiceCliente.Remove(clienteDTO);
-                return Ok("Cliente removido com sucesso!");
+                var deleted = applicationServiceCliente.Remove(id);
+
+                if (deleted)
+                    return Ok("Cliente removido com sucesso!");
+                else
+                    return BadRequest("Cliente informado não existe!");
             }
-            catch
+            catch (ArgumentException arg)
             {
-                throw;
+                return BadRequest(arg);
+            }
+            catch (ValidationException val)
+            {
+                return BadRequest(val);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
             }
         }
     }
