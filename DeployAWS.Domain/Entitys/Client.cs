@@ -2,7 +2,7 @@
 
 namespace DeployAWS.Domain.Entitys
 {
-    public class Cliente : Base
+    public class Client : Base
     {
         public string Nome { get; set; }
         public string Sobrenome { get; set; }

@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace DeployAWS.Application.Validator
 {
-    public class ClienteDtoValidator : AbstractValidator<ClienteDto>
+    public class ClientDtoValidator : AbstractValidator<ClientDto>
     {
-        public ClienteDtoValidator()
+        public ClientDtoValidator()
         {
             RuleFor(c => c.Nome).NotNull().NotEmpty();
             RuleFor(c => c.Nome).MaximumLength(80);

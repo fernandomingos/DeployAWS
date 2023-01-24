@@ -13,7 +13,7 @@ namespace DeployAWS.API.Configurations
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            services.AddScoped<IValidator<ClienteDto>, ClienteDtoValidator>();
+            services.AddScoped<IValidator<ClientDto>, ClientDtoValidator>();
             services.AddScoped<IValidator<ProdutoDto>, ProdutoDtoValidator>();
         }
     }

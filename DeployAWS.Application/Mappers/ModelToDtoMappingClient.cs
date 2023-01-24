@@ -4,17 +4,17 @@ using DeployAWS.Domain.Entitys;
 
 namespace DeployAWS.Application.Mappers
 {
-    public class ModelToDtoMappingCliente : Profile
+    public class ModelToDtoMappingClient : Profile
     {
 
-        public ModelToDtoMappingCliente()
+        public ModelToDtoMappingClient()
         {
-            ClienteDtoMap();
+            ClientDtoMap();
         }
 
-        private void ClienteDtoMap()
+        private void ClientDtoMap()
         {
-            CreateMap<Cliente, ClienteDto>()
+            CreateMap<Client, ClientDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(dest => dest.Nome, opt => opt.MapFrom(x => x.Nome))
                 .ForMember(dest => dest.Sobrenome, opt => opt.MapFrom(x => x.Sobrenome))

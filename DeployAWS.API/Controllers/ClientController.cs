@@ -10,16 +10,16 @@ namespace DeployAWS.API.Controllers
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
-    public class ClientesController : ControllerBase
+    public class ClientController : ControllerBase
     {
 
-        private readonly IApplicationServiceCliente _applicationServiceCliente;
-        private readonly IValidator<ClienteDto> _validator;
+        private readonly IApplicationServiceClient _applicationServiceClient;
+        private readonly IValidator<ClientDto> _validator;
 
 
-        public ClientesController(IApplicationServiceCliente applicationServiceCliente, IValidator<ClienteDto> validator)
+        public ClientController(IApplicationServiceClient applicationServiceClient, IValidator<ClientDto> validator)
         {
-            _applicationServiceCliente = applicationServiceCliente;
+            _applicationServiceClient = applicationServiceClient;
             _validator = validator;
         }
 
@@ -38,7 +38,7 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                var result = await _applicationServiceCliente.GetAllAsync();
+                var result = await _applicationServiceClient.GetAllAsync();
 
                 return Ok(result);
             }
@@ -70,7 +70,7 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                var response = _applicationServiceCliente.GetByIdAsync(id).Result;
+                var response = _applicationServiceClient.GetByIdAsync(id).Result;
 
                 return Ok(response);
             }
@@ -91,7 +91,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Adiciona um objeto cliente na base de dados.
         /// </summary>
-        /// <param name="clienteDTO"></param>
+        /// <param name="clientDTO"></param>
         /// <remarks>
         /// Exemplo de requisição:
         /// 
@@ -109,23 +109,23 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] ClienteDto clienteDTO)
+        public ActionResult Post([FromBody] ClientDto clientDTO)
         {
             try
             {
-                if (clienteDTO == null)
+                if (clientDTO == null)
                     return NotFound();
 
-                var result = _validator.Validate(clienteDTO);
+                var result = _validator.Validate(clientDTO);
 
                 if (!result.IsValid)
                 {
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceCliente.Add(clienteDTO);
+                _applicationServiceClient.Add(clientDTO);
 
-                return CreatedAtAction("Get", new { id = clienteDTO.Id}, clienteDTO);
+                return CreatedAtAction("Get", new { id = clientDTO.Id}, clientDTO);
             }
             catch (ArgumentException arg)
             {
@@ -163,21 +163,21 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // PUT api/values/5
         [HttpPut]
-        public ActionResult Put([FromBody] ClienteDto clienteDTO)
+        public ActionResult Put([FromBody] ClientDto clientDTO)
         {
             try
             {
-                if (clienteDTO == null)
+                if (clientDTO == null)
                     return NotFound();
 
-                var result = _validator.Validate(clienteDTO);
+                var result = _validator.Validate(clientDTO);
 
                 if (!result.IsValid)
                 {
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceCliente.Update(clienteDTO);
+                _applicationServiceClient.Update(clientDTO);
                 return Ok("Cliente atualizado com sucesso!");
             }
             catch (ArgumentException arg)
@@ -211,7 +211,7 @@ namespace DeployAWS.API.Controllers
                 if (id == 0)
                     return NotFound();
 
-                var deleted = _applicationServiceCliente.Remove(id);
+                var deleted = _applicationServiceClient.Remove(id);
 
                 if (deleted)
                     return Ok("Cliente removido com sucesso!");

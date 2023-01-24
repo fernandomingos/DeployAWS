@@ -87,7 +87,7 @@ namespace DeployAWS.API.Controllers
         }
 
         /// <summary>
-        /// Adiciona um objeto cliente na base de dados.
+        /// Adiciona um objeto produto na base de dados.
         /// </summary>
         /// <param name="produtoDTO"></param>
         /// <remarks>
@@ -101,7 +101,7 @@ namespace DeployAWS.API.Controllers
         ///     }
         /// 
         /// </remarks>
-        /// <response code="201">Retorna o novo cliente criado</response>
+        /// <response code="201">Retorna o novo produto criado</response>
         /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
         /// <response code="500">Erro interno de processamento</response>
         // POST api/values

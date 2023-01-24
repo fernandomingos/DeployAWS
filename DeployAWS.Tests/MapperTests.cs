@@ -8,16 +8,16 @@ namespace DeployAWS.Tests
     public class MapperTests
     {
         [Test]
-        public void AutoMapperDtoToModelCliente_Configuration_IsValid()
+        public void AutoMapperDtoToModelClient_Configuration_IsValid()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<DtoToModelMappingCliente>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<DtoToModelMappingClient>());
             config.AssertConfigurationIsValid();
         }  
         
         [Test]
-        public void AutoMapperModelToDtoCliente_Configuration_IsValid()
+        public void AutoMapperModelToDtoClient_Configuration_IsValid()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<ModelToDtoMappingCliente>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<ModelToDtoMappingClient>());
             config.AssertConfigurationIsValid();
         }
         
