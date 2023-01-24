@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DeployAWS.Infrastructure.Data.Repositorys
 {
@@ -27,14 +28,14 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
             }
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return _appDbContext.Set<TEntity>().ToList();
+            return await _appDbContext.Set<TEntity>().ToListAsync();
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            return _appDbContext.Set<TEntity>().Find(id);
+            return await _appDbContext.Set<TEntity>().FindAsync(id);
         }
 
         public void Remove(TEntity obj)

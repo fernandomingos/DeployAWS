@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeployAWS.Domain.Core.Interfaces.Repositorys
 {
@@ -10,8 +11,8 @@ namespace DeployAWS.Domain.Core.Interfaces.Repositorys
 
         void Remove(TEntity obj);
 
-        IEnumerable<TEntity> GetAll();
+        Task<IEnumerable<TEntity>> GetAllAsync();
 
-        TEntity GetById(int id);
+        Task<TEntity> GetByIdAsync(int id);
     }
 }

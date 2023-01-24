@@ -3,13 +3,13 @@ using DeployAWS.Application.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeployAWS.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Produces("applicaion/json")]
+    [Produces("application/json")]
     public class ClientesController : ControllerBase
     {
 
@@ -26,7 +26,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Recupera uma lista contendo todos os clientes disponíveis.
         /// </summary>
-        /// <returns>Lista de objetos cliente</returns>
+        /// <returns></returns>
         /// <remarks>
         /// Get()
         /// </remarks>
@@ -34,11 +34,13 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult> GetAsync()
         {
             try
             {
-                return Ok(_applicationServiceCliente.GetAll());
+                var result = await _applicationServiceCliente.GetAllAsync();
+
+                return Ok(result);
             }
             catch (ArgumentException arg)
             {
@@ -64,11 +66,13 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values/5
         [HttpGet("{id:int}")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult> GetAsync(int id)
         {
             try
             {
-                return Ok(_applicationServiceCliente.GetById(id));
+                var response = _applicationServiceCliente.GetByIdAsync(id).Result;
+
+                return Ok(response);
             }
             catch (ArgumentException arg)
             {
@@ -121,7 +125,7 @@ namespace DeployAWS.API.Controllers
 
                 _applicationServiceCliente.Add(clienteDTO);
 
-                return CreatedAtAction(nameof(Get), new { id = clienteDTO.Id}, clienteDTO);
+                return CreatedAtAction("Get", new { id = clienteDTO.Id}, clienteDTO);
             }
             catch (ArgumentException arg)
             {

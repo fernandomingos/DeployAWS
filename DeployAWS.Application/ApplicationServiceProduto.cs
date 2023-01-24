@@ -5,6 +5,7 @@ using DeployAWS.Domain.Core.Interfaces.Services;
 using DeployAWS.Domain.Entitys;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeployAWS.Application
 {
@@ -26,16 +27,17 @@ namespace DeployAWS.Application
             _serviceProduto.Add(produto);
         }
 
-        public IEnumerable<ProdutoDto> GetAll()
+        public async Task<IEnumerable<ProdutoDto>> GetAllAsync()
         {
-            var produtos = _serviceProduto.GetAll();
+            var produtos = await _serviceProduto.GetAllAsync();
             var produtosDto = _mapper.Map<IEnumerable<ProdutoDto>>(produtos);
+
             return produtosDto;
         }
 
-        public ProdutoDto GetById(int id)
+        public async Task<ProdutoDto> GetByIdAsync(int id)
         {
-            var produto = _serviceProduto.GetById(id);
+            var produto = await _serviceProduto.GetByIdAsync(id);
             var produtoDto = _mapper.Map<ProdutoDto>(produto);
 
             return produtoDto;
@@ -45,7 +47,7 @@ namespace DeployAWS.Application
         {
             try
             {
-                var produto = _serviceProduto.GetById(id);
+                var produto = _serviceProduto.GetByIdAsync(id);
 
                 if (produto == null)
                     return false;

@@ -4,6 +4,7 @@ using DeployAWS.Application.Interfaces;
 using DeployAWS.Domain.Core.Interfaces.Services;
 using DeployAWS.Domain.Entitys;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeployAWS.Application
 {
@@ -23,17 +24,17 @@ namespace DeployAWS.Application
             _serviceCliente.Add(cliente);
         }
 
-        public IEnumerable<ClienteDto> GetAll()
+        public async Task<IEnumerable<ClienteDto>> GetAllAsync()
         {
-            var clientes = _serviceCliente.GetAll();
+            var clientes = await _serviceCliente.GetAllAsync();
             var clientesDto = _mapper.Map<IEnumerable<ClienteDto>>(clientes);
 
             return clientesDto;
         }
 
-        public ClienteDto GetById(int id)
+        public async Task<ClienteDto> GetByIdAsync(int id)
         {
-            var cliente = _serviceCliente.GetById(id);
+            var cliente = await _serviceCliente.GetByIdAsync(id);
             var clienteDto = _mapper.Map<ClienteDto>(cliente);
 
             return clienteDto;
@@ -41,7 +42,7 @@ namespace DeployAWS.Application
 
         public bool Remove(int id)
         {
-            var cliente = _serviceCliente.GetById(id);
+            var cliente = _serviceCliente.GetByIdAsync(id);
 
             if (cliente == null)
                 return false;

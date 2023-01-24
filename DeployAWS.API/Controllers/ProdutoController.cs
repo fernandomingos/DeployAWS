@@ -3,13 +3,14 @@ using DeployAWS.Application.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DeployAWS.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Produces("applicaion/json")]
+    [Produces("application/json")]
     public class ProdutosController : ControllerBase
     {
         private readonly IApplicationServiceProduto _applicationServiceProduto;
@@ -24,7 +25,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Recupera uma lista contendo todos os produtos disponíveis.
         /// </summary>
-        /// <returns>Lista de objetos cliente</returns>
+        /// <returns></returns>
         /// <remarks>
         /// Get()
         /// </remarks>
@@ -32,11 +33,13 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult> GetAsync()
         {
             try
             {
-                return Ok(_applicationServiceProduto.GetAll());
+                var result = await _applicationServiceProduto.GetAllAsync();
+
+                return Ok(result.ToList());
             }
             catch (ArgumentException arg)
             {
@@ -61,11 +64,13 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values/5\
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult> GetAsync(int id)
         {
             try
             {
-                return Ok(_applicationServiceProduto.GetById(id));
+                var response = await _applicationServiceProduto.GetByIdAsync(id);
+
+                return Ok(response);
             }
             catch (ArgumentException arg)
             {

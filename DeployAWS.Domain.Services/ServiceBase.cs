@@ -1,42 +1,43 @@
 ﻿using DeployAWS.Domain.Core.Interfaces.Repositorys;
 using DeployAWS.Domain.Core.Interfaces.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeployAWS.Domain.Services
 {
     public class ServiceBase<TEntity> : IServiceBase<TEntity> where TEntity : class
     {
-        private readonly IRepositoryBase<TEntity> repository;
+        private readonly IRepositoryBase<TEntity> _repository;
 
         public ServiceBase(IRepositoryBase<TEntity> repository)
         {
-            this.repository = repository;
+            _repository = repository;
         }
 
         public void Add(TEntity obj)
         {
-            repository.Add(obj);
+            _repository.Add(obj);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return repository.GetAll();
+            return await _repository.GetAllAsync();
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            return repository.GetById(id);
+            return await _repository.GetByIdAsync(id);
         }
 
         public void Remove(int id)
         {
-            var obj = repository.GetById(id);
-            repository.Remove(obj);
+            var obj = _repository.GetByIdAsync(id);
+            _repository.Remove(obj.Result);
         }
 
         public void Update(TEntity obj)
         {
-            repository.Update(obj);
+            _repository.Update(obj);
         }
     }
 }

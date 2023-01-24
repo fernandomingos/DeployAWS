@@ -8,6 +8,7 @@ using DeployAWS.Application;
 using DeployAWS.Application.Dtos;
 using DeployAWS.Domain.Core.Interfaces.Services;
 using DeployAWS.Domain.Entitys;
+using System.Threading.Tasks;
 
 namespace DeployAWS.Tests
 {
@@ -35,17 +36,17 @@ namespace DeployAWS.Tests
             var clientes = _fixture.Build<Cliente>().CreateMany(5);
             var clientesDto = _fixture.Build<ClienteDto>().CreateMany(5);
 
-            _serviceClienteMock.Setup(x => x.GetAll()).Returns(clientes);
+            _serviceClienteMock.Setup(x => x.GetAllAsync().Result).Returns(clientes);
             _mapperMock.Setup(x => x.Map<IEnumerable<ClienteDto>>(clientes)).Returns(clientesDto);
 
             var applicationServiceCliente = new ApplicationServiceCliente(_serviceClienteMock.Object, _mapperMock.Object);
-            
+
             //Act
-            var result = applicationServiceCliente.GetAll();
+            var response = applicationServiceCliente.GetAllAsync();
 
             //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(5, result.Count());
+            Assert.IsNotNull(response.Result);
+            Assert.AreEqual(5, response.Result.Count());
             _serviceClienteMock.VerifyAll();
             _mapperMock.VerifyAll();
         }
@@ -55,35 +56,32 @@ namespace DeployAWS.Tests
         {
             //Arrange
             const int id = 10;
-     
+
             var cliente = _fixture.Build<Cliente>()
                 .With(c => c.Id, id)
                 .With(c => c.Email, "teste1@teste.com.br")
                 .Create();
-            
+
             var clienteDto = _fixture.Build<ClienteDto>()
                 .With(c => c.Id, id)
                 .With(c => c.Email, "teste1@teste.com.br")
                 .Create();
-            
-            _serviceClienteMock.Setup(x => x.GetById(id)).Returns(cliente);
+
+            _serviceClienteMock.Setup(x => x.GetByIdAsync(id).Result).Returns(cliente);
             _mapperMock.Setup(x => x.Map<ClienteDto>(cliente)).Returns(clienteDto);
 
             var applicationServiceCliente =
                 new ApplicationServiceCliente(_serviceClienteMock.Object, _mapperMock.Object);
 
             //Act
-            var result = applicationServiceCliente.GetById(id);
+            var response = applicationServiceCliente.GetByIdAsync(id);
 
             //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual("teste1@teste.com.br", result.Email);
-            Assert.AreEqual(10, result.Id);
+            Assert.IsNotNull(response.Result);
+            Assert.AreEqual("teste1@teste.com.br", response.Result.Email);
+            Assert.AreEqual(10, response.Result.Id);
             _serviceClienteMock.VerifyAll();
             _mapperMock.VerifyAll();
-            
-            
         }
-
     }
 }

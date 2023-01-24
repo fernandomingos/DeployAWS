@@ -1,5 +1,6 @@
 ﻿using DeployAWS.Application.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeployAWS.Application.Interfaces
 {
@@ -11,8 +12,8 @@ namespace DeployAWS.Application.Interfaces
 
         bool Remove(int id);
 
-        IEnumerable<ProdutoDto> GetAll();
+        Task<IEnumerable<ProdutoDto>> GetAllAsync();
 
-        ProdutoDto GetById(int id);
+        Task<ProdutoDto> GetByIdAsync(int id);
     }
 }
