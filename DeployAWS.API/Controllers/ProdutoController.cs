@@ -20,6 +20,10 @@ namespace DeployAWS.API.Controllers
             _validator = validator;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -42,6 +46,11 @@ namespace DeployAWS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/values/5\
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
@@ -64,6 +73,11 @@ namespace DeployAWS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="produtoDTO"></param>
+        /// <returns></returns>
         // POST api/values
         [HttpPost]
         public ActionResult Post([FromBody] ProdutoDto produtoDTO)
@@ -98,6 +112,11 @@ namespace DeployAWS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="produtoDTO"></param>
+        /// <returns></returns>
         // PUT api/values/5
         [HttpPut]
         public ActionResult Put([FromBody] ProdutoDto produtoDTO)
@@ -132,6 +151,11 @@ namespace DeployAWS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)

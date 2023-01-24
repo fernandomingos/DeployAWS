@@ -21,6 +21,11 @@ namespace DeployAWS.API.Controllers
             _applicationServiceCliente = applicationServiceCliente;
             _validator = validator;
         }
+        
+        /// <summary>
+        /// Recupera uma lista contendo todos clientes disponíveis.
+        /// </summary>
+        /// <returns>Lista de objetos cliente</returns>
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -43,6 +48,11 @@ namespace DeployAWS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Recupera um objeto cliente pelo id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Objeto cliente</returns>
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
@@ -65,6 +75,11 @@ namespace DeployAWS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Adiciona um objeto cliente na base de dados.
+        /// </summary>
+        /// <param name="clienteDTO"></param>
+        /// <returns>Status code e mensagem</returns>
         // POST api/values
         [HttpPost]
         public ActionResult Post([FromBody] ClienteDto clienteDTO)
@@ -98,6 +113,11 @@ namespace DeployAWS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Altera um objeto cliente na base de dados.
+        /// </summary>
+        /// <param name="clienteDTO"></param>
+        /// <returns>Status code e mensagem</returns>
         // PUT api/values/5
         [HttpPut]
         public ActionResult Put([FromBody] ClienteDto clienteDTO)
@@ -131,6 +151,11 @@ namespace DeployAWS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove um objeto cliente na base de dados.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code e mensagem</returns>
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)

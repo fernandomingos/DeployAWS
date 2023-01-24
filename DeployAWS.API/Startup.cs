@@ -31,11 +31,9 @@ namespace DeployAWS.API
             services.AddHealthChecks();
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HealthCheck", Version = "v1" });
-            });
+
             services.AddDependencyInjectionSetup();
+            services.AddSwaggerSetup();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -54,7 +52,7 @@ namespace DeployAWS.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HealthCheck v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Documentação API v1");
             });
 
             app.UseHttpsRedirection();
