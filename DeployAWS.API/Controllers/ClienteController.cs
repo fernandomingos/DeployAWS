@@ -9,6 +9,7 @@ namespace DeployAWS.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Produces("applicaion/json")]
     public class ClientesController : ControllerBase
     {
 
@@ -21,11 +22,16 @@ namespace DeployAWS.API.Controllers
             _applicationServiceCliente = applicationServiceCliente;
             _validator = validator;
         }
-        
+
         /// <summary>
-        /// Recupera uma lista contendo todos clientes disponíveis.
+        /// Recupera uma lista contendo todos os clientes disponíveis.
         /// </summary>
         /// <returns>Lista de objetos cliente</returns>
+        /// <remarks>
+        /// Get()
+        /// </remarks>
+        /// <response code="200">Retorna uma lista de clientes</response>
+        /// <response code="500">Erro interno de processamento</response>
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -53,8 +59,11 @@ namespace DeployAWS.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Objeto cliente</returns>
+        /// <response code="200">Retorna um cliente</response>
+        /// <response code="400">Mensagem de retorno caso o id informado não exista</response>
+        /// <response code="500">Erro interno de processamento</response>
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public ActionResult<string> Get(int id)
         {
             try
@@ -79,7 +88,21 @@ namespace DeployAWS.API.Controllers
         /// Adiciona um objeto cliente na base de dados.
         /// </summary>
         /// <param name="clienteDTO"></param>
-        /// <returns>Status code e mensagem</returns>
+        /// <remarks>
+        /// Exemplo de requisição:
+        /// 
+        ///     PUT
+        ///     {
+        ///       "id" = 1,
+        ///       "nome" = "Michael",
+        ///       "sobrenome" = "Jackson",
+        ///       "email" = "michael.jackson@neverland.com"
+        ///     }
+        /// 
+        /// </remarks>
+        /// <response code="201">Retorna o novo cliente criado</response>
+        /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
+        /// <response code="500">Erro interno de processamento</response>
         // POST api/values
         [HttpPost]
         public ActionResult Post([FromBody] ClienteDto clienteDTO)
@@ -97,7 +120,8 @@ namespace DeployAWS.API.Controllers
                 }
 
                 _applicationServiceCliente.Add(clienteDTO);
-                return Ok("Cliente cadastrado com sucesso!");
+
+                return CreatedAtAction(nameof(Get), new { id = clienteDTO.Id}, clienteDTO);
             }
             catch (ArgumentException arg)
             {
@@ -118,6 +142,21 @@ namespace DeployAWS.API.Controllers
         /// </summary>
         /// <param name="clienteDTO"></param>
         /// <returns>Status code e mensagem</returns>
+        /// <remarks>
+        /// Exemplo de requisição:
+        /// 
+        ///     POST
+        ///     {
+        ///       "id" = 1,
+        ///       "nome" = "Michael",
+        ///       "sobrenome" = "Jackson",
+        ///       "email" = "michael.jackson@neverland.com"
+        ///     }
+        /// 
+        /// </remarks>
+        /// <response code="200">Retorna objeto do produto atualizado</response>
+        /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
+        /// <response code="500">Erro interno de processamento</response>
         // PUT api/values/5
         [HttpPut]
         public ActionResult Put([FromBody] ClienteDto clienteDTO)
@@ -156,8 +195,11 @@ namespace DeployAWS.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Status code e mensagem</returns>
+        /// <response code="200">Cliente removido com sucesso</response>
+        /// <response code="400">Retorno caso cliente não exista</response>
+        /// <response code="500">Erro interno de processamento</response> 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
             try

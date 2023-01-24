@@ -31,7 +31,6 @@ namespace DeployAWS.API
             services.AddHealthChecks();
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
             services.AddDependencyInjectionSetup();
             services.AddSwaggerSetup();
         }
@@ -52,13 +51,11 @@ namespace DeployAWS.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Documentação API v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Documentação de Treinamento API Rest Deploy AWS v1");
             });
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

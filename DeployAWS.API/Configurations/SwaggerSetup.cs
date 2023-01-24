@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
+using System.IO;
 
 namespace DeployAWS.API.Configurations
 {
@@ -13,13 +14,15 @@ namespace DeployAWS.API.Configurations
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1"
-                    , new OpenApiInfo 
-                    { 
-                        Title = "Documentação API", 
-                        Version = "v1" 
-                    }
-                );
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Documentação de Treinamento API Rest (Deploy AWS)",
+                    Version = "v1"
+                });
+
+                var xmlApiPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
+
+                c.IncludeXmlComments(xmlApiPath);
             });
         }
     }
