@@ -22,16 +22,16 @@ namespace DeployAWS.Tests
         }
         
         [Test]
-        public void AutoMapperDtoToModelProduto_Configuration_IsValid()
+        public void AutoMapperDtoToModelProduct_Configuration_IsValid()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<DtoToModelMappingProduto>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<DtoToModelMappingProduct>());
             config.AssertConfigurationIsValid();
         }
         
         [Test]
-        public void AutoMapperModelToDtoProduto_Configuration_IsValid()
+        public void AutoMapperModelToDtoProduct_Configuration_IsValid()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<ModelToDtoMappingProduto>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<ModelToDtoMappingProduct>());
             config.AssertConfigurationIsValid();
         }  
 

@@ -11,14 +11,14 @@ namespace DeployAWS.API.Controllers
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
-    public class ProdutosController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly IApplicationServiceProduto _applicationServiceProduto;
-        private readonly IValidator<ProdutoDto> _validator;
+        private readonly IApplicationServiceProduct _applicationServiceProduct;
+        private readonly IValidator<ProductDto> _validator;
 
-        public ProdutosController(IApplicationServiceProduto applicationServiceProduto, IValidator<ProdutoDto> validator)
+        public ProductController(IApplicationServiceProduct applicationServiceProduct, IValidator<ProductDto> validator)
         {
-            _applicationServiceProduto = applicationServiceProduto;
+            _applicationServiceProduct = applicationServiceProduct;
             _validator = validator;
         }
 
@@ -37,7 +37,7 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                var result = await _applicationServiceProduto.GetAllAsync();
+                var result = await _applicationServiceProduct.GetAllAsync();
 
                 return Ok(result.ToList());
             }
@@ -68,7 +68,7 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                var response = await _applicationServiceProduto.GetByIdAsync(id);
+                var response = await _applicationServiceProduct.GetByIdAsync(id);
 
                 return Ok(response);
             }
@@ -89,7 +89,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Adiciona um objeto produto na base de dados.
         /// </summary>
-        /// <param name="produtoDTO"></param>
+        /// <param name="productDTO"></param>
         /// <remarks>
         /// Exemplo de requisição:
         /// 
@@ -106,21 +106,21 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] ProdutoDto produtoDTO)
+        public ActionResult Post([FromBody] ProductDto productDTO)
         {
             try
             {
-                if (produtoDTO == null)
+                if (productDTO == null)
                     return NotFound();
 
-                var result = _validator.Validate(produtoDTO);
+                var result = _validator.Validate(productDTO);
 
                 if (!result.IsValid)
                 {
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceProduto.Add(produtoDTO);
+                _applicationServiceProduct.Add(productDTO);
 
                 return Ok("O produto foi cadastrado com sucesso");
             }
@@ -141,7 +141,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Altera um objeto produto na base de dados.
         /// </summary>
-        /// <param name="produtoDTO"></param>
+        /// <param name="productDTO"></param>
         /// <returns>Status code e mensagem</returns>
         /// <remarks>
         /// Exemplo de requisição:
@@ -159,21 +159,21 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // PUT api/values/5
         [HttpPut]
-        public ActionResult Put([FromBody] ProdutoDto produtoDTO)
+        public ActionResult Put([FromBody] ProductDto productDTO)
         {
             try
             {
-                if (produtoDTO == null)
+                if (productDTO == null)
                     return NotFound();
 
-                var result = _validator.Validate(produtoDTO);
+                var result = _validator.Validate(productDTO);
 
                 if (!result.IsValid) 
                 {
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceProduto.Update(produtoDTO);
+                _applicationServiceProduct.Update(productDTO);
 
                 return Ok("O produto foi atualizado com sucesso!");
             }
@@ -208,7 +208,7 @@ namespace DeployAWS.API.Controllers
                 if (id == 0)
                     return NotFound();
 
-                var deleted = _applicationServiceProduto.Remove(id);
+                var deleted = _applicationServiceProduct.Remove(id);
 
                 if (deleted)
                     return Ok("Produto removido com sucesso!");

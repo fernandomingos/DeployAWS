@@ -4,16 +4,16 @@ using DeployAWS.Domain.Entitys;
 
 namespace DeployAWS.Application.Mappers
 {
-    public class DtoToModelMappingProduto : Profile
+    public class DtoToModelMappingProduct : Profile
     {
-        public DtoToModelMappingProduto()
+        public DtoToModelMappingProduct()
         {
-            ProdutoMap();
+            ProductMap();
         }
 
-        private void ProdutoMap()
+        private void ProductMap()
         {
-            CreateMap<ProdutoDto, Produto>()
+            CreateMap<ProductDto, Product>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Nome, opt => opt.MapFrom(x => x.Nome))
                 .ForMember(dest => dest.Valor, opt => opt.MapFrom(x => x.Valor))

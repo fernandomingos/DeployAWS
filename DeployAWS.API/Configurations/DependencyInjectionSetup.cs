@@ -14,7 +14,7 @@ namespace DeployAWS.API.Configurations
                 throw new ArgumentNullException(nameof(services));
 
             services.AddScoped<IValidator<ClientDto>, ClientDtoValidator>();
-            services.AddScoped<IValidator<ProdutoDto>, ProdutoDtoValidator>();
+            services.AddScoped<IValidator<ProductDto>, ProductDtoValidator>();
         }
     }
 }

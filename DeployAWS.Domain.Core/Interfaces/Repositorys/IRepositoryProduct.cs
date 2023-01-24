@@ -2,7 +2,7 @@
 
 namespace DeployAWS.Domain.Core.Interfaces.Repositorys
 {
-    public interface IRepositoryProduto : IRepositoryBase<Produto>
+    public interface IRepositoryProduct : IRepositoryBase<Product>
     {
     }
 }

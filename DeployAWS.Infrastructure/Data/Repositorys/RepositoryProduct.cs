@@ -3,11 +3,11 @@ using DeployAWS.Domain.Entitys;
 
 namespace DeployAWS.Infrastructure.Data.Repositorys
 {
-    public class RepositoryProduto : RepositoryBase<Produto>, IRepositoryProduto
+    public class RepositoryProduct : RepositoryBase<Product>, IRepositoryProduct
     {
         private readonly AppDbContext _appDbContext;
 
-        public RepositoryProduto(AppDbContext appDbContext)
+        public RepositoryProduct(AppDbContext appDbContext)
             : base(appDbContext)
         {
             _appDbContext = appDbContext;

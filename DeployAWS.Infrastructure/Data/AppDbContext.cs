@@ -10,7 +10,7 @@ namespace DeployAWS.Infrastructure.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,21 +35,21 @@ namespace DeployAWS.Infrastructure.Data
                     new Client { Id = 5, Nome = "Cliente 5", Sobrenome = "Teste 5", Email = "cliente5@teste.com", DataCadastro = DateTime.Now, IsAtivo = true }
                 );
 
-            builder.Entity<Produto>()
+            builder.Entity<Product>()
                 .Property(p => p.Nome)
                 .HasMaxLength(100);
 
-            builder.Entity<Produto>()
+            builder.Entity<Product>()
                 .Property(p => p.Valor)
                 .HasColumnType("decimal(10, 2)");
 
-            builder.Entity<Produto>()
+            builder.Entity<Product>()
                 .HasData(
-                    new Produto { Id = 1, Nome = "Lápis", IsDisponivel = true },
-                    new Produto { Id = 2, Nome = "Caderno", IsDisponivel = true },
-                    new Produto { Id = 3, Nome = "Borracha", IsDisponivel = true },
-                    new Produto { Id = 4, Nome = "Caneta", IsDisponivel = true },
-                    new Produto { Id = 5, Nome = "Apontador", IsDisponivel = true }
+                    new Product { Id = 1, Nome = "Lápis", IsDisponivel = true },
+                    new Product { Id = 2, Nome = "Caderno", IsDisponivel = true },
+                    new Product { Id = 3, Nome = "Borracha", IsDisponivel = true },
+                    new Product { Id = 4, Nome = "Caneta", IsDisponivel = true },
+                    new Product { Id = 5, Nome = "Apontador", IsDisponivel = true }
                 );
         }
 

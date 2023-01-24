@@ -2,7 +2,7 @@
 
 namespace DeployAWS.Application.Dtos
 {
-    public class ProdutoDto
+    public class ProductDto
     {
         public int Id { get; set; }
         [Required]

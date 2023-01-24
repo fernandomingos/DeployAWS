@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace DeployAWS.Application.Validator
 {
-    public class ProdutoDtoValidator : AbstractValidator<ProdutoDto>
+    public class ProductDtoValidator : AbstractValidator<ProductDto>
     {
-        public ProdutoDtoValidator()
+        public ProductDtoValidator()
         {
             RuleFor(c => c.Id).NotNull().NotEmpty();
 

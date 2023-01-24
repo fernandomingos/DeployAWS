@@ -2,7 +2,7 @@
 
 namespace DeployAWS.Domain.Core.Interfaces.Services
 {
-    public interface IServiceProduto : IServiceBase<Produto>
+    public interface IServiceProduct : IServiceBase<Product>
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace DeployAWS.Domain.Entitys
 {
-    public class Produto : Base
+    public class Product : Base
     {
         public string Nome { get; set; }
         public decimal Valor { get; set; }

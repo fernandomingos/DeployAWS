@@ -17,18 +17,18 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
             #region IOC
 
             builder.RegisterType<ApplicationServiceClient>().As<IApplicationServiceClient>();
-            builder.RegisterType<ApplicationServiceProduto>().As<IApplicationServiceProduto>();
+            builder.RegisterType<ApplicationServiceProduct>().As<IApplicationServiceProduct>();
             builder.RegisterType<ServiceClient>().As<IServiceClient>();
-            builder.RegisterType<ServiceProduto>().As<IServiceProduto>();
+            builder.RegisterType<ServiceProduct>().As<IServiceProduct>();
             builder.RegisterType<RepositoryClient>().As<IRepositoryClient>();
-            builder.RegisterType<RepositoryProduto>().As<IRepositoryProduto>();
+            builder.RegisterType<RepositoryProduct>().As<IRepositoryProduct>();
 
             builder.Register(ctx => new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new DtoToModelMappingClient());
                 cfg.AddProfile(new ModelToDtoMappingClient());
-                cfg.AddProfile(new DtoToModelMappingProduto());
-                cfg.AddProfile(new ModelToDtoMappingProduto());
+                cfg.AddProfile(new DtoToModelMappingProduct());
+                cfg.AddProfile(new ModelToDtoMappingProduct());
 
             }));
 

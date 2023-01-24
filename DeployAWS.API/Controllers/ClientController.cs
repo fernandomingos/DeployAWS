@@ -144,7 +144,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Altera um objeto cliente na base de dados.
         /// </summary>
-        /// <param name="clienteDTO"></param>
+        /// <param name="clientDTO"></param>
         /// <returns>Status code e mensagem</returns>
         /// <remarks>
         /// Exemplo de requisição:
@@ -158,7 +158,7 @@ namespace DeployAWS.API.Controllers
         ///     }
         /// 
         /// </remarks>
-        /// <response code="200">Retorna objeto do produto atualizado</response>
+        /// <response code="200">Retorna objeto do cliente atualizado</response>
         /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
         /// <response code="500">Erro interno de processamento</response>
         // PUT api/values/5
