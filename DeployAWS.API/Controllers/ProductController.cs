@@ -30,6 +30,7 @@ namespace DeployAWS.API.Controllers
         /// Get()
         /// </remarks>
         /// <response code="200">Retorna uma lista de produtos</response>
+        /// <response code="204">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values
         [HttpGet]
@@ -60,7 +61,7 @@ namespace DeployAWS.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="200">Retorna um produto</response>
-        /// <response code="400">Mensagem de retorno caso o id informado não exista</response>
+        /// <response code="204">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values/5\
         [HttpGet("{id}")]

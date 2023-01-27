@@ -31,6 +31,7 @@ namespace DeployAWS.API.Controllers
         /// Get()
         /// </remarks>
         /// <response code="200">Retorna uma lista de clientes</response>
+        /// <response code="204">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values
         [HttpGet]
@@ -62,7 +63,7 @@ namespace DeployAWS.API.Controllers
         /// <param name="id"></param>
         /// <returns>Objeto cliente</returns>
         /// <response code="200">Retorna um cliente</response>
-        /// <response code="400">Mensagem de retorno caso o id informado não exista</response>
+        /// <response code="204">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values/5
         [HttpGet("{id:int}")]
@@ -70,7 +71,7 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                var response = _applicationServiceClient.GetByIdAsync(id).Result;
+                var response = await _applicationServiceClient.GetByIdAsync(id);
 
                 return Ok(response);
             }
