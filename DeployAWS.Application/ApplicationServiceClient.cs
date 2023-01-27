@@ -44,7 +44,7 @@ namespace DeployAWS.Application
         {
             var client = _serviceClient.GetByIdAsync(id);
 
-            if (client == null)
+            if (client.Result == null)
                 return false;
 
             _serviceClient.Remove(id);

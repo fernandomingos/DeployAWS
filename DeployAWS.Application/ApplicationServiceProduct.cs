@@ -49,7 +49,7 @@ namespace DeployAWS.Application
             {
                 var product = _serviceProduct.GetByIdAsync(id);
 
-                if (product == null)
+                if (product.Result == null)
                     return false;
 
                 _serviceProduct.Remove(id);
