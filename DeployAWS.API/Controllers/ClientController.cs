@@ -34,7 +34,6 @@ namespace DeployAWS.API.Controllers
         /// <response code="200">Retorna uma lista de clientes</response>
         /// <response code="204">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
-        // GET api/values
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> GetAsync()
@@ -111,7 +110,6 @@ namespace DeployAWS.API.Controllers
         /// <response code="201">Retorna o novo cliente criado</response>
         /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
         /// <response code="500">Erro interno de processamento</response>
-        // POST api/values
         [HttpPost]
         [Authorize]
         public ActionResult Post([FromBody] ClientDto clientDTO)
@@ -127,6 +125,11 @@ namespace DeployAWS.API.Controllers
                 {
                     return BadRequest(result.Errors);
                 }
+
+                var clientDB = _applicationServiceClient.GetByIdAsync(clientDTO.Id).Result;
+
+                if (clientDB != null)
+                    return BadRequest("Cliente informado já existe na base");
 
                 var client = _applicationServiceClient.Add(clientDTO);
 
@@ -166,7 +169,6 @@ namespace DeployAWS.API.Controllers
         /// <response code="200">Retorna objeto do cliente atualizado</response>
         /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
         /// <response code="500">Erro interno de processamento</response>
-        // PUT api/values/5
         [HttpPut]
         [Authorize]
         public ActionResult Put([FromBody] ClientDto clientDTO)
@@ -182,6 +184,11 @@ namespace DeployAWS.API.Controllers
                 {
                     return BadRequest(result.Errors);
                 }
+
+                var clientDB = _applicationServiceClient.GetByIdAsync(clientDTO.Id).Result;
+
+                if (clientDB == null)
+                    return BadRequest("Cliente informado não existe na base!");
 
                 _applicationServiceClient.Update(clientDTO);
                 return Ok("Cliente atualizado com sucesso!");
@@ -208,7 +215,6 @@ namespace DeployAWS.API.Controllers
         /// <response code="200">Cliente removido com sucesso</response>
         /// <response code="400">Retorno caso cliente não exista</response>
         /// <response code="500">Erro interno de processamento</response> 
-        // DELETE api/values/5
         [HttpDelete("{id:int}")]
         [Authorize]
         public ActionResult Delete(int id)
