@@ -28,7 +28,7 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                var clientDB = _applicationServiceClient.GetByIdAsync(id).Result;
+                var clientDB = await _applicationServiceClient.GetByIdAsync(id);
 
                 if (clientDB == null)
                     return BadRequest(new { Message = "Email inválido." });
