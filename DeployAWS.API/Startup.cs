@@ -32,6 +32,7 @@ namespace DeployAWS.API
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDependencyInjectionSetup();
+            services.AddJwtBearertSetup(Configuration);
             services.AddSwaggerSetup();
         }
 
@@ -56,6 +57,7 @@ namespace DeployAWS.API
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

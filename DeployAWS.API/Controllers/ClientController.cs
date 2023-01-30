@@ -1,6 +1,7 @@
 ﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -35,6 +36,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetAsync()
         {
             try
@@ -67,6 +69,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values/5
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<ActionResult> GetAsync(int id)
         {
             try
@@ -110,6 +113,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // POST api/values
         [HttpPost]
+        [Authorize]
         public ActionResult Post([FromBody] ClientDto clientDTO)
         {
             try
@@ -164,6 +168,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // PUT api/values/5
         [HttpPut]
+        [Authorize]
         public ActionResult Put([FromBody] ClientDto clientDTO)
         {
             try
@@ -205,6 +210,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response> 
         // DELETE api/values/5
         [HttpDelete("{id:int}")]
+        [Authorize]
         public ActionResult Delete(int id)
         {
             try

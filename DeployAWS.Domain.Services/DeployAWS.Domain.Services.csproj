@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DeployAWS.Application\DeployAWS.Application.csproj" />
     <ProjectReference Include="..\DeployAWS.Domain.Core\DeployAWS.Domain.Core.csproj" />
   </ItemGroup>
 
