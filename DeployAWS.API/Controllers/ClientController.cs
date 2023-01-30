@@ -60,7 +60,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Recupera um objeto cliente pelo id.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">(Int) Identificador do cliente</param>
         /// <returns>Objeto cliente</returns>
         /// <response code="200">Retorna um cliente</response>
         /// <response code="204">Não há conteúdo para ser exibido</response>
@@ -92,7 +92,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Adiciona um objeto cliente na base de dados.
         /// </summary>
-        /// <param name="clientDTO"></param>
+        /// <param name="clientDTO">Entidade cliente DTO</param>
         /// <remarks>
         /// Exemplo de requisição:
         /// 
@@ -124,9 +124,9 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceClient.Add(clientDTO);
+                var client = _applicationServiceClient.Add(clientDTO);
 
-                return CreatedAtAction("Get", new { id = clientDTO.Id}, clientDTO);
+                return CreatedAtAction("Get", client);
             }
             catch (ArgumentException arg)
             {
@@ -145,7 +145,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Altera um objeto cliente na base de dados.
         /// </summary>
-        /// <param name="clientDTO"></param>
+        /// <param name="clientDTO">Entidade cliente DTO</param>
         /// <returns>Status code e mensagem</returns>
         /// <remarks>
         /// Exemplo de requisição:
@@ -198,7 +198,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Remove um objeto cliente na base de dados.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">(Int) Identificador do cliente</param>
         /// <returns>Status code e mensagem</returns>
         /// <response code="200">Cliente removido com sucesso</response>
         /// <response code="400">Retorno caso cliente não exista</response>
