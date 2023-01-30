@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DeployAWS.Infrastructure\DeployAWS.Infrastructure.csproj" />
-    <ProjectReference Include="..\DeployAWS.MSTest\DeployAWS.MSTest.csproj" />
   </ItemGroup>
 
 

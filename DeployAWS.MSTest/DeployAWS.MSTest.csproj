@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DeployAWS.API\DeployAWS.API.csproj" />
     <ProjectReference Include="..\DeployAWS.Application\DeployAWS.Application.csproj" />
     <ProjectReference Include="..\DeployAWS.Domain\DeployAWS.Domain.csproj" />
   </ItemGroup>

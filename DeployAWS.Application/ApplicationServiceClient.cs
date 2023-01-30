@@ -18,10 +18,11 @@ namespace DeployAWS.Application
             _mapper = mapper;
         }
 
-        public void Add(ClientDto clientDto)
+        public Client Add(ClientDto clientDto)
         {
             var client = _mapper.Map<Client>(clientDto);
             _serviceClient.Add(client);
+            return client;
         }
 
         public async Task<IEnumerable<ClientDto>> GetAllAsync()
