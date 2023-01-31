@@ -1,9 +1,18 @@
-﻿namespace DeployAWS.Domain.Entitys
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace DeployAWS.Domain.Entitys
 {
-    public class Product : Base
+    public class Product
     {
-        public string Nome { get; set; }
-        public decimal Valor { get; set; }
-        public bool IsDisponivel { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+        [BsonElement]
+        public string Name { get; set; }
+        [BsonElement]
+        public decimal Value { get; set; }
+        [BsonElement]
+        public bool IsAvaiable { get; set; }
     }
 }

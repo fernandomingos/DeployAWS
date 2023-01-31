@@ -1,16 +1,12 @@
 ﻿using DeployAWS.Domain.Core.Interfaces.Repositorys;
-using DeployAWS.Domain.Entitys;
 
 namespace DeployAWS.Infrastructure.Data.Repositorys
 {
-    public class RepositoryProduct : RepositoryBase<Product>, IRepositoryProduct
+    public class RepositoryProduct : RepositoryBaseNoSQL, IRepositoryProduct
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly AppDbNoSQLContext _appDbNoSQLContext;
 
-        public RepositoryProduct(AppDbContext appDbContext)
-            : base(appDbContext)
-        {
-            _appDbContext = appDbContext;
-        }
+        public RepositoryProduct(AppDbNoSQLContext appDbNoSQLContext) : base(appDbNoSQLContext) =>
+            _appDbNoSQLContext = appDbNoSQLContext;
     }
 }

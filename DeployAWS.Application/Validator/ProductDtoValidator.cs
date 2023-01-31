@@ -9,10 +9,10 @@ namespace DeployAWS.Application.Validator
         {
             RuleFor(c => c.Id).NotNull().NotEmpty();
 
-            RuleFor(c => c.Nome).NotNull().NotEmpty();
-            RuleFor(c => c.Nome).MaximumLength(80);
+            RuleFor(c => c.Name).NotNull().NotEmpty();
+            RuleFor(c => c.Name).MaximumLength(80);
 
-            RuleFor(c => c.Valor).NotNull().NotEmpty();
+            RuleFor(c => c.Value).NotNull().NotEmpty();
         }
     }
 }

@@ -6,6 +6,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -58,7 +59,7 @@ namespace DeployAWS.MSTest.Product.Controller
         public async Task ProductController_GetByIdAsync_ShouldReturn_NotNull()
         {
             // Arrange
-            var mockId = 5;
+            var mockId = Guid.NewGuid().ToString();
             _mockApplicationServiceProduct.Setup(c => c.GetByIdAsync(mockId)).ReturnsAsync(MockListProductDto().First());
             var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
 
@@ -72,7 +73,7 @@ namespace DeployAWS.MSTest.Product.Controller
         public async Task ProductController_GetByIdAsync_ShouldReturn_StatusCode_200()
         {
             // Arrange
-            var mockId = 5;
+            var mockId = Guid.NewGuid().ToString();
             _mockApplicationServiceProduct.Setup(c => c.GetByIdAsync(mockId)).ReturnsAsync(MockListProductDto().First());
             var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
 
@@ -87,7 +88,7 @@ namespace DeployAWS.MSTest.Product.Controller
         public void ClientController_Post_ShouldReturn_StatusCode_404()
         {
             // Arrange
-            _mockApplicationServiceProduct.Setup(c => c.Update(new ProductDto()));
+            _mockApplicationServiceProduct.Setup(c => c.UpdateAsync(new ProductDto()));
             var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
 
             // Act
@@ -101,7 +102,7 @@ namespace DeployAWS.MSTest.Product.Controller
         public void ClientController_Post_ShouldReturn_StatusCode_500()
         {
             // Arrange
-            _mockApplicationServiceProduct.Setup(c => c.Update(new ProductDto()));
+            _mockApplicationServiceProduct.Setup(c => c.UpdateAsync(new ProductDto()));
             var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
 
             // Act
@@ -115,7 +116,7 @@ namespace DeployAWS.MSTest.Product.Controller
         public void ClientController_Put_ShouldReturn_StatusCode_404()
         {
             // Arrange
-            _mockApplicationServiceProduct.Setup(c => c.Update(new ProductDto()));
+            _mockApplicationServiceProduct.Setup(c => c.UpdateAsync(new ProductDto()));
             var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
 
             // Act
@@ -129,7 +130,7 @@ namespace DeployAWS.MSTest.Product.Controller
         public void ClientController_Put_ShouldReturn_StatusCode_500()
         {
             // Arrange
-            _mockApplicationServiceProduct.Setup(c => c.Update(new ProductDto()));
+            _mockApplicationServiceProduct.Setup(c => c.UpdateAsync(new ProductDto()));
             var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
 
             // Act

@@ -14,8 +14,8 @@ namespace DeployAWS.Application.Mappers
         {
             CreateMap<Product, ProductDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(x => x.Id))
-                .ForMember(dest => dest.Nome, opt => opt.MapFrom(x => x.Nome))
-                .ForMember(dest => dest.Valor, opt => opt.MapFrom(x => x.Valor));
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(x => x.Value));
         }
     }
 }

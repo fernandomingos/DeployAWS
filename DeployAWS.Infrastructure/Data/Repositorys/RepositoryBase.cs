@@ -1,7 +1,6 @@
 ﻿using DeployAWS.Domain.Core.Interfaces.Repositorys;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeployAWS.Infrastructure.Data.Repositorys

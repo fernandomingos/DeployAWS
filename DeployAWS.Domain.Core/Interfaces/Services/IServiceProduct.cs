@@ -2,7 +2,7 @@
 
 namespace DeployAWS.Domain.Core.Interfaces.Services
 {
-    public interface IServiceProduct : IServiceBase<Product>
+    public interface IServiceProduct : IServiceBaseNoSQL<Product>
     {
     }
 }

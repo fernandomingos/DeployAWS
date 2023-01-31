@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace DeployAWS.API
 {
@@ -32,6 +31,7 @@ namespace DeployAWS.API
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDependencyInjectionSetup();
+            services.AddMongoDBSetup(Configuration);
             services.AddSwaggerSetup();
         }
 

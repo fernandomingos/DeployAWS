@@ -4,10 +4,10 @@ namespace DeployAWS.Application.Dtos
 {
     public class ProductDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
-        public string Nome { get; set; }
+        public string Name { get; set; }
         [Required]
-        public decimal Valor { get; set; }
+        public decimal Value { get; set; }
     }
 }

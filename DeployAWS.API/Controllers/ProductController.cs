@@ -65,7 +65,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values/5\
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult> GetAsync(string id)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceProduct.Add(productDTO);
+                _applicationServiceProduct.CreateAsync(productDTO);
 
                 return Ok("O produto foi cadastrado com sucesso");
             }
@@ -174,7 +174,7 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceProduct.Update(productDTO);
+                _applicationServiceProduct.UpdateAsync(productDTO);
 
                 return Ok("O produto foi atualizado com sucesso!");
             }
@@ -202,14 +202,14 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response> 
         // DELETE api/values/5
         [HttpDelete("{id:int}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             try
             {
-                if (id == 0)
+                if (id == "")
                     return NotFound();
 
-                var deleted = _applicationServiceProduct.Remove(id);
+                var deleted = _applicationServiceProduct.RemoveAsync(id);
 
                 if (deleted)
                     return Ok("Produto removido com sucesso!");

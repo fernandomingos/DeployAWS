@@ -6,6 +6,7 @@ using DeployAWS.Domain.Core.Interfaces.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
 
 namespace DeployAWS.MSTest.Product.ApplicationService
@@ -47,19 +48,19 @@ namespace DeployAWS.MSTest.Product.ApplicationService
         public void ApplicationServiceClient_GetById_ShouldReturnClient()
         {
             //Arrange
-            const int IdMock = 10;
+            string IdMock = Guid.NewGuid().ToString();
             const string NameTest = "Nome teste";
 
             var product = _fixture.Build<Domain.Entitys.Product>()
                 .With(c => c.Id, IdMock)
-                .With(c => c.Nome, NameTest)
-                .With(c => c.Valor, 10000)
+                .With(c => c.Name, NameTest)
+                .With(c => c.Value, 10000)
                 .Create();
 
             var productDto = _fixture.Build<ProductDto>()
                 .With(c => c.Id, IdMock)
-                .With(c => c.Nome, NameTest)
-                .With(c => c.Valor, 10000)
+                .With(c => c.Name, NameTest)
+                .With(c => c.Value, 10000)
                 .Create();
 
             _serviceProductMock.Setup(x => x.GetByIdAsync(IdMock).Result).Returns(product);
@@ -72,7 +73,7 @@ namespace DeployAWS.MSTest.Product.ApplicationService
 
             //Assert
             response.Result.Should().NotBeNull();
-            response.Result.Nome.Should().Be(NameTest);
+            response.Result.Name.Should().Be(NameTest);
             response.Result.Id.Should().Be(IdMock);
             _serviceProductMock.VerifyAll();
             _mapperMock.VerifyAll();
