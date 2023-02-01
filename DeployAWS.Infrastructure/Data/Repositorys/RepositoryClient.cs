@@ -7,8 +7,7 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
     {
         private readonly AppDbContext _appDbContext;
 
-        public RepositoryClient(AppDbContext appDbContext)
-            : base(appDbContext)
+        public RepositoryClient(AppDbContext appDbContext) : base(appDbContext)
         {
             _appDbContext = appDbContext;
         }

@@ -4,11 +4,13 @@ using DeployAWS.Domain.Entitys;
 
 namespace DeployAWS.Domain.Services
 {
-    public class ServiceProduct : ServiceBaseNoSQL, IServiceBaseNoSQL<Product>
+    public class ServiceProduct : ServiceBaseNoSQL<Product>, IServiceProduct
     {
         private readonly IRepositoryProduct _repositoryProduct;
 
-        public ServiceProduct(IRepositoryProduct repositoryProduct) : base(repositoryProduct) =>
+        public ServiceProduct(IRepositoryProduct repositoryProduct) : base(repositoryProduct)
+        {
             _repositoryProduct = repositoryProduct;
+        }
     }
 }

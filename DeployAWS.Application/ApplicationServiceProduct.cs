@@ -43,7 +43,7 @@ namespace DeployAWS.Application
             return productDto;
         }
 
-        public bool RemoveAsync(string id)
+        public bool Remove(string id)
         {
             try
             {
@@ -52,19 +52,19 @@ namespace DeployAWS.Application
                 if (product.Result == null)
                     return false;
 
-                _serviceProduct.RemoveAsync(id);
-                return true;
+                _serviceProduct.Remove(id);
             }
             catch (Exception)
             {
                 return false;
             }
+            return false;
         }
 
-        public void UpdateAsync(ProductDto productDto)
+        public void Update(ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
-            _serviceProduct.UpdateAsync(product);
+            _serviceProduct.Update(product);
         }
     }
 }

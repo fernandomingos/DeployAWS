@@ -9,5 +9,6 @@ namespace DeployAWS.Application.Dtos
         public string Name { get; set; }
         [Required]
         public decimal Value { get; set; }
+        public bool IsAvaiable { get; set; }
     }
 }

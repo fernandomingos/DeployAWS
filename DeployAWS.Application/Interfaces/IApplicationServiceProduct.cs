@@ -8,9 +8,9 @@ namespace DeployAWS.Application.Interfaces
     {
         void CreateAsync(ProductDto productDto);
 
-        void UpdateAsync(ProductDto productDto);
+        void Update(ProductDto productDto);
 
-        bool RemoveAsync(string id);
+        bool Remove(string id);
 
         Task<IEnumerable<ProductDto>> GetAllAsync();
 

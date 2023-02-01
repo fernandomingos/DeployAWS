@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DeployAWS.Domain.Services
 {
-    public class ServiceBaseNoSQL : IServiceBaseNoSQL<Product>
+    public class ServiceBaseNoSQL<TEntity> : IServiceBaseNoSQL<TEntity> where TEntity : class
     {
-        private readonly IRepositoryBaseNoSQL<Product> _repository;
+        private readonly IRepositoryBaseNoSQL<TEntity> _repository;
 
-        public ServiceBaseNoSQL(IRepositoryBaseNoSQL<Product> repository) =>
+        public ServiceBaseNoSQL(IRepositoryBaseNoSQL<TEntity> repository) =>
             _repository = repository;
 
         public void CreateAsync(Product product) =>
@@ -26,10 +26,10 @@ namespace DeployAWS.Domain.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public void RemoveAsync(string id) =>
-            _repository.RemoveAsync(id);
+        public void Remove(string id) =>
+            _repository.Remove(id);
 
-        public void UpdateAsync(Product product) =>
-            _repository.UpdateAsync(product);
+        public void Update(Product product) =>
+            _repository.Update(product);
     }
 }

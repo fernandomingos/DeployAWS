@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using DeployAWS.Domain.Entitys;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DeployAWS.Domain.Core.Interfaces.Services
 {
-    public interface IServiceBaseNoSQL<Product>
+    public interface IServiceBaseNoSQL<TEntity> where TEntity : class
     {
         void CreateAsync(Product product);
 
-        void UpdateAsync(Product product);
+        void Update(Product product);
 
-        void RemoveAsync(string id);
+        void Remove(string id);
 
         Task<IEnumerable<Product>> GetAllAsync();
 
