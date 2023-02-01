@@ -2,6 +2,7 @@
 using DeployAWS.Application.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -123,7 +124,8 @@ namespace DeployAWS.API.Controllers
 
                 _applicationServiceProduct.CreateAsync(productDTO);
 
-                return Ok("O produto foi cadastrado com sucesso");
+                return Ok(productDTO);
+                //return Ok("O produto foi cadastrado com sucesso");
             }
             catch (ArgumentException arg)
             {
@@ -174,7 +176,7 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceProduct.UpdateAsync(productDTO);
+                _applicationServiceProduct.Update(productDTO);
 
                 return Ok("O produto foi atualizado com sucesso!");
             }
@@ -200,8 +202,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="200">Produto removido com sucesso</response>
         /// <response code="400">Retorno caso produto não exista</response>
         /// <response code="500">Erro interno de processamento</response> 
-        // DELETE api/values/5
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:string}")]
         public ActionResult Delete(string id)
         {
             try
@@ -209,7 +210,7 @@ namespace DeployAWS.API.Controllers
                 if (id == "")
                     return NotFound();
 
-                var deleted = _applicationServiceProduct.RemoveAsync(id);
+                var deleted = _applicationServiceProduct.Remove(id);
 
                 if (deleted)
                     return Ok("Produto removido com sucesso!");

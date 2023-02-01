@@ -26,12 +26,11 @@ namespace DeployAWS.API
         {
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContextPool<AppDbContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
-
+            services.AddMongoDBSetup(Configuration);
             services.AddHealthChecks();
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDependencyInjectionSetup();
-            services.AddMongoDBSetup(Configuration);
             services.AddSwaggerSetup();
         }
 
