@@ -115,6 +115,7 @@ namespace DeployAWS.API.Controllers
         [HttpPost]
         [Authorize]
         [ProducesResponseType(typeof(ClientDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult Post([FromBody] ClientDto clientDTO)
@@ -178,6 +179,7 @@ namespace DeployAWS.API.Controllers
         [HttpPut]
         [Authorize]
         [ProducesResponseType(typeof(OkResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult Put([FromBody] ClientDto clientDTO)
@@ -228,6 +230,7 @@ namespace DeployAWS.API.Controllers
         [HttpDelete("{id:int}")]
         [Authorize]
         [ProducesResponseType(typeof(OkResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult Delete(int id)

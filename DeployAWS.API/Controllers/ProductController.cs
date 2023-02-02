@@ -1,9 +1,12 @@
 ﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,13 +31,15 @@ namespace DeployAWS.API.Controllers
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// Get()
         /// </remarks>
         /// <response code="200">Retorna uma lista de produtos</response>
-        /// <response code="204">Não há conteúdo para ser exibido</response>
+        /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento</response>
-        // GET api/values
         [HttpGet]
+        [Authorize]
+        [ProducesResponseType(typeof(List<ClientDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAsync()
         {
             try
@@ -62,10 +67,13 @@ namespace DeployAWS.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="200">Retorna um produto</response>
-        /// <response code="204">Não há conteúdo para ser exibido</response>
+        /// <response code="404">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
-        // GET api/values/5\
         [HttpGet("{id}")]
+        [Authorize]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAsync(string id)
         {
             try
@@ -105,9 +113,14 @@ namespace DeployAWS.API.Controllers
         /// </remarks>
         /// <response code="201">Retorna o novo produto criado</response>
         /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
+        /// <response code="404">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
-        // POST api/values
         [HttpPost]
+        [Authorize]
+        [ProducesResponseType(typeof(ClientDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult Post([FromBody] ProductDto productDTO)
         {
             try
@@ -160,7 +173,6 @@ namespace DeployAWS.API.Controllers
         /// <response code="200">Retorna objeto do produto atualizado</response>
         /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
         /// <response code="500">Erro interno de processamento</response>
-        // PUT api/values/5
         [HttpPut]
         public ActionResult Put([FromBody] ProductDto productDTO)
         {
@@ -203,6 +215,10 @@ namespace DeployAWS.API.Controllers
         /// <response code="400">Retorno caso produto não exista</response>
         /// <response code="500">Erro interno de processamento</response> 
         [HttpDelete("{id}")]
+        [Authorize]
+        [ProducesResponseType(typeof(OkResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult Delete(string id)
         {
             try
