@@ -13,12 +13,12 @@ namespace DeployAWS.API.Controllers
     public class AuthController : ControllerBase
     {
 
-        private readonly IApplicationServiceClient _applicationServiceClient;
+        private readonly IApplicationServiceCustomer _applicationServiceCustomer;
         private readonly IConfiguration _configuration;
 
-        public AuthController(IApplicationServiceClient applicationServiceClient, IConfiguration configuration)
+        public AuthController(IApplicationServiceCustomer applicationServiceCustomer, IConfiguration configuration)
         {
-            _applicationServiceClient = applicationServiceClient;
+            _applicationServiceCustomer = applicationServiceCustomer;
             _configuration = configuration;
         }
 
@@ -29,18 +29,18 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
-                var clientDB = await _applicationServiceClient.GetByIdAsync(id);
+                var customerDB = await _applicationServiceCustomer.GetByIdAsync(id);
 
-                if (clientDB == null)
+                if (customerDB == null)
                     return BadRequest(new { Message = "Id inválido." });
 
 
-                var token = ServiceJwtAuth.GenerateToken(clientDB.Nome, _configuration);
+                var token = ServiceJwtAuth.GenerateToken(customerDB.Nome, _configuration);
 
                 return Ok(new
                 {
                     Token = token,
-                    Usuario = clientDB
+                    Usuario = customerDB
                 });
 
             }

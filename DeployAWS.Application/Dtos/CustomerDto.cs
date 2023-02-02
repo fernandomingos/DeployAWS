@@ -2,7 +2,7 @@
 
 namespace DeployAWS.Application.Dtos
 {
-    public class ClientDto
+    public class CustomerDto
     {
         public int Id { get; set; }
         [Required]

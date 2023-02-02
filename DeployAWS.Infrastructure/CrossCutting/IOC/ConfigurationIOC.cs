@@ -5,11 +5,8 @@ using DeployAWS.Application.Interfaces;
 using DeployAWS.Application.Mappers;
 using DeployAWS.Domain.Core.Interfaces.Repositorys;
 using DeployAWS.Domain.Core.Interfaces.Services;
-using DeployAWS.Domain.Entitys;
 using DeployAWS.Domain.Services;
-using DeployAWS.Infrastructure.Data;
 using DeployAWS.Infrastructure.Data.Repositorys;
-using MongoDB.Driver;
 
 namespace DeployAWS.Infrastructure.CrossCutting.IOC
 {
@@ -19,17 +16,17 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
         {
             #region IOC
 
-            builder.RegisterType<ApplicationServiceClient>().As<IApplicationServiceClient>();
+            builder.RegisterType<ApplicationServiceCustomer>().As<IApplicationServiceCustomer>();
             builder.RegisterType<ApplicationServiceProduct>().As<IApplicationServiceProduct>();
-            builder.RegisterType<ServiceClient>().As<IServiceClient>();
+            builder.RegisterType<ServiceCustomer>().As<IServiceCustomer>();
             builder.RegisterType<ServiceProduct>().As<IServiceProduct>();
-            builder.RegisterType<RepositoryClient>().As<IRepositoryClient>();
+            builder.RegisterType<RepositoryCustomer>().As<IRepositoryCustomer>();
             builder.RegisterType<RepositoryProduct>().As<IRepositoryProduct>();
 
             builder.Register(ctx => new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new DtoToModelMappingClient());
-                cfg.AddProfile(new ModelToDtoMappingClient());
+                cfg.AddProfile(new DtoToModelMappingCustomer());
+                cfg.AddProfile(new ModelToDtoMappingCustomer());
                 cfg.AddProfile(new DtoToModelMappingProduct());
                 cfg.AddProfile(new ModelToDtoMappingProduct());
 
