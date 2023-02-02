@@ -202,7 +202,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="200">Produto removido com sucesso</response>
         /// <response code="400">Retorno caso produto não exista</response>
         /// <response code="500">Erro interno de processamento</response> 
-        [HttpDelete("{id:string}")]
+        [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
             try

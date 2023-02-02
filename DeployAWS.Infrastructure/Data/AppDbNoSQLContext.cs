@@ -12,7 +12,7 @@ namespace DeployAWS.Infrastructure.Data
 
         public AppDbNoSQLContext(IOptions<ProductDatabaseSettings> productSettings)
         {
-            var mongoClient = new MongoClient(productSettings.Value.ConnectionString);
+            var mongoClient = new MongoClient(productSettings.Value.ConnectionStrings);
 
             if (mongoClient == null)
                 throw new ArgumentNullException(nameof(mongoClient));
