@@ -6,14 +6,14 @@ namespace DeployAWS.Application.Interfaces
 {
     public interface IApplicationServiceProduct
     {
-        void Add(ProductDto productDto);
+        void CreateAsync(ProductDto productDto);
 
         void Update(ProductDto productDto);
 
-        bool Remove(int id);
+        bool Remove(string id);
 
         Task<IEnumerable<ProductDto>> GetAllAsync();
 
-        Task<ProductDto> GetByIdAsync(int id);
+        Task<ProductDto> GetByIdAsync(string id);
     }
 }

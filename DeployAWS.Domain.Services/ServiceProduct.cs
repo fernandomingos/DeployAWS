@@ -4,7 +4,7 @@ using DeployAWS.Domain.Entitys;
 
 namespace DeployAWS.Domain.Services
 {
-    public class ServiceProduct : ServiceBase<Product>, IServiceProduct
+    public class ServiceProduct : ServiceBaseNoSQL<Product>, IServiceProduct
     {
         private readonly IRepositoryProduct _repositoryProduct;
 

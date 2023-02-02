@@ -21,10 +21,10 @@ namespace DeployAWS.Application
             _mapper = mapper;
         }
 
-        public void Add(ProductDto productDto)
+        public void CreateAsync(ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
-            _serviceProduct.Add(product);
+            _serviceProduct.CreateAsync(product);
         }
 
         public async Task<IEnumerable<ProductDto>> GetAllAsync()
@@ -35,7 +35,7 @@ namespace DeployAWS.Application
             return productsDto;
         }
 
-        public async Task<ProductDto> GetByIdAsync(int id)
+        public async Task<ProductDto> GetByIdAsync(string id)
         {
             var product = await _serviceProduct.GetByIdAsync(id);
             var productDto = _mapper.Map<ProductDto>(product);
@@ -43,7 +43,7 @@ namespace DeployAWS.Application
             return productDto;
         }
 
-        public bool Remove(int id)
+        public bool Remove(string id)
         {
             try
             {
@@ -53,12 +53,12 @@ namespace DeployAWS.Application
                     return false;
 
                 _serviceProduct.Remove(id);
-                return true;
             }
             catch (Exception)
             {
                 return false;
             }
+            return false;
         }
 
         public void Update(ProductDto productDto)

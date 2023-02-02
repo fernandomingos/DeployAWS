@@ -5,8 +5,11 @@ using DeployAWS.Application.Interfaces;
 using DeployAWS.Application.Mappers;
 using DeployAWS.Domain.Core.Interfaces.Repositorys;
 using DeployAWS.Domain.Core.Interfaces.Services;
+using DeployAWS.Domain.Entitys;
 using DeployAWS.Domain.Services;
+using DeployAWS.Infrastructure.Data;
 using DeployAWS.Infrastructure.Data.Repositorys;
+using MongoDB.Driver;
 
 namespace DeployAWS.Infrastructure.CrossCutting.IOC
 {

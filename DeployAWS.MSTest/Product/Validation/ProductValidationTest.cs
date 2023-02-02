@@ -29,7 +29,7 @@ namespace DeployAWS.MSTest.Product.Validation
         public void Test_Product_Name_Empty()
         {
             var productDto = _fixture.Build<ProductDto>()
-                .With(c => c.Nome, string.Empty)
+                .With(c => c.Name, string.Empty)
                 .Create();
             var validation = _productDtoValidator.Validate(productDto);
             validation.Errors.Should().NotBeNullOrEmpty();
@@ -38,7 +38,7 @@ namespace DeployAWS.MSTest.Product.Validation
         public void Test_Product_Validator_Name_Exceeded_MaxLength()
         {
             var productDto = _fixture.Build<ProductDto>()
-                .With(n => n.Nome, "012345678901234567890123456789012345678901234567890123456789012345678901234567890")
+                .With(n => n.Name, "012345678901234567890123456789012345678901234567890123456789012345678901234567890")
                 .Create();
             var validation = _productDtoValidator.Validate(productDto);
             validation.Errors.Should().NotBeNullOrEmpty();

@@ -2,6 +2,7 @@
 using DeployAWS.Application.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,7 +66,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         // GET api/values/5\
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult> GetAsync(string id)
         {
             try
             {
@@ -121,9 +122,10 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                _applicationServiceProduct.Add(productDTO);
+                _applicationServiceProduct.CreateAsync(productDTO);
 
-                return Ok("O produto foi cadastrado com sucesso");
+                return Ok(productDTO);
+                //return Ok("O produto foi cadastrado com sucesso");
             }
             catch (ArgumentException arg)
             {
@@ -200,13 +202,12 @@ namespace DeployAWS.API.Controllers
         /// <response code="200">Produto removido com sucesso</response>
         /// <response code="400">Retorno caso produto não exista</response>
         /// <response code="500">Erro interno de processamento</response> 
-        // DELETE api/values/5
-        [HttpDelete("{id:int}")]
-        public ActionResult Delete(int id)
+        [HttpDelete("{id}")]
+        public ActionResult Delete(string id)
         {
             try
             {
-                if (id == 0)
+                if (id == "")
                     return NotFound();
 
                 var deleted = _applicationServiceProduct.Remove(id);
