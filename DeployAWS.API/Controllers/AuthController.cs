@@ -24,6 +24,7 @@ namespace DeployAWS.API.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> Auth([FromBody]int id)
         {
             try
@@ -31,7 +32,7 @@ namespace DeployAWS.API.Controllers
                 var clientDB = await _applicationServiceClient.GetByIdAsync(id);
 
                 if (clientDB == null)
-                    return BadRequest(new { Message = "Email inválido." });
+                    return BadRequest(new { Message = "Id inválido." });
 
 
                 var token = ServiceJwtAuth.GenerateToken(clientDB.Nome, _configuration);
