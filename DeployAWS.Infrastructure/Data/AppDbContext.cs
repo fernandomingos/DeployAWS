@@ -52,6 +52,13 @@ namespace DeployAWS.Infrastructure.Data
 
             builder.Entity<User>()
                 .Property(p => p.CreateDate);
+
+            builder.Entity<User>()
+                .HasData(
+                    new User {Id = Guid.NewGuid().ToString(), FirstName = "Marcos", LastName = "Paulo Silva", UserName="mpaulo.silva" ,EmailAddress = "mpaulo.silva@teste.com", CreateDate = DateTime.Now, Profile = "Admin" },
+                    new User {Id = Guid.NewGuid().ToString(), FirstName = "Pedro", LastName = "Cardoso de Mello", UserName="pcardoso.mello", EmailAddress = "pcardoso.mello@teste.com", CreateDate = DateTime.Now, Profile = "Admin" },
+                    new User {Id = Guid.NewGuid().ToString(), FirstName = "Guilherme", LastName = "Silverio", UserName="guilherme.silverio" ,EmailAddress = "guilherme.silverio@teste.com", CreateDate = DateTime.Now, Profile = "Admin" }
+                );
         }
 
         public override int SaveChanges()
