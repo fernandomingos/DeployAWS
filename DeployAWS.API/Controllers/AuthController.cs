@@ -22,10 +22,10 @@ namespace DeployAWS.API.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [AllowAnonymous]
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<IActionResult> Auth([FromBody]int id)
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> Auth(int id)
         {
             try
             {
