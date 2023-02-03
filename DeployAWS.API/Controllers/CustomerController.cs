@@ -196,10 +196,10 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
+                //var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
 
-                if (customerDB == null)
-                    return BadRequest("Cliente informado não existe na base!");
+                //if (customerDB == null)
+                //    return BadRequest("Cliente informado não existe na base!");
 
                 _applicationServiceCustomer.Update(customerDTO);
                 return Ok("Cliente atualizado com sucesso!");
