@@ -37,7 +37,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<ClientDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAsync()
@@ -117,7 +117,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         [HttpPost]
         [Authorize]
-        [ProducesResponseType(typeof(ClientDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

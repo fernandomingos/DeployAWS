@@ -32,10 +32,10 @@ namespace DeployAWS.MSTest.Product.ApplicationService
             var productsDto = _fixture.Build<ProductDto>().CreateMany(7);
             _serviceProductMock.Setup(x => x.GetAllAsync().Result).Returns(products);
             _mapperMock.Setup(x => x.Map<IEnumerable<ProductDto>>(products)).Returns(productsDto);
-            var applicationServiceClient = new ApplicationServiceProduct(_serviceProductMock.Object, _mapperMock.Object);
+            var applicationServiceProduct = new ApplicationServiceProduct(_serviceProductMock.Object, _mapperMock.Object);
 
             //Act
-            var response = applicationServiceClient.GetAllAsync();
+            var response = applicationServiceProduct.GetAllAsync();
 
             //Assert
             response.Result.Should().NotBeNullOrEmpty();
@@ -45,7 +45,7 @@ namespace DeployAWS.MSTest.Product.ApplicationService
         }
 
         [TestMethod]
-        public void ApplicationServiceClient_GetById_ShouldReturnClient()
+        public void applicationServiceProduct_GetById_ShouldReturnProduct()
         {
             //Arrange
             string IdMock = Guid.NewGuid().ToString();
@@ -66,10 +66,10 @@ namespace DeployAWS.MSTest.Product.ApplicationService
             _serviceProductMock.Setup(x => x.GetByIdAsync(IdMock).Result).Returns(product);
             _mapperMock.Setup(x => x.Map<ProductDto>(product)).Returns(productDto);
 
-            var applicationServiceClient = new ApplicationServiceProduct(_serviceProductMock.Object, _mapperMock.Object);
+            var applicationServiceProduct = new ApplicationServiceProduct(_serviceProductMock.Object, _mapperMock.Object);
 
             //Act
-            var response = applicationServiceClient.GetByIdAsync(IdMock);
+            var response = applicationServiceProduct.GetByIdAsync(IdMock);
 
             //Assert
             response.Result.Should().NotBeNull();

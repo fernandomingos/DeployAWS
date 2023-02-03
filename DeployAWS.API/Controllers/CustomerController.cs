@@ -13,16 +13,16 @@ namespace DeployAWS.API.Controllers
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
-    public class ClientController : ControllerBase
+    public class CustomerController : ControllerBase
     {
 
-        private readonly IApplicationServiceClient _applicationServiceClient;
-        private readonly IValidator<ClientDto> _validator;
+        private readonly IApplicationServiceCustomer _applicationServiceCustomer;
+        private readonly IValidator<CustomerDto> _validator;
 
 
-        public ClientController(IApplicationServiceClient applicationServiceClient, IValidator<ClientDto> validator)
+        public CustomerController(IApplicationServiceCustomer applicationServiceCustomer, IValidator<CustomerDto> validator)
         {
-            _applicationServiceClient = applicationServiceClient;
+            _applicationServiceCustomer = applicationServiceCustomer;
             _validator = validator;
         }
 
@@ -34,14 +34,14 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento!</response>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(typeof(List<ClientDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAsync()
         {
             try
             {
-                var result = await _applicationServiceClient.GetAllAsync();
+                var result = await _applicationServiceCustomer.GetAllAsync();
 
                 if (result == null)
                     return NotFound();
@@ -64,14 +64,14 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         [HttpGet("{id:int}")]
         [Authorize]
-        [ProducesResponseType(typeof(ClientDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAsync(int id)
         {
             try
             {
-                var response = await _applicationServiceClient.GetByIdAsync(id);
+                var response = await _applicationServiceCustomer.GetByIdAsync(id);
 
                 if (response == null)
                     return NotFound();
@@ -95,7 +95,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Adiciona um objeto cliente na base de dados.
         /// </summary>
-        /// <param name="clientDTO">Entidade cliente DTO</param>
+        /// <param name="customerDTO">Entidade cliente DTO</param>
         /// <remarks>
         /// Exemplo de requisição:
         /// 
@@ -114,32 +114,32 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         [HttpPost]
         [Authorize]
-        [ProducesResponseType(typeof(ClientDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult Post([FromBody] ClientDto clientDTO)
+        public ActionResult Post([FromBody] CustomerDto customerDTO)
         {
             try
             {
-                if (clientDTO == null)
+                if (customerDTO == null)
                     return NotFound();
 
-                var result = _validator.Validate(clientDTO);
+                var result = _validator.Validate(customerDTO);
 
                 if (!result.IsValid)
                 {
                     return BadRequest(result.Errors);
                 }
 
-                var clientDB = _applicationServiceClient.GetByIdAsync(clientDTO.Id).Result;
+                var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
 
-                if (clientDB != null)
+                if (customerDB != null)
                     return NotFound("Cliente informado já existe na base");
 
-                var client = _applicationServiceClient.Add(clientDTO);
+                var customer = _applicationServiceCustomer.Add(customerDTO);
 
-                return CreatedAtAction("Get", client);
+                return CreatedAtAction("Get", customer);
             }
             catch (ArgumentException arg)
             {
@@ -158,7 +158,7 @@ namespace DeployAWS.API.Controllers
         /// <summary>
         /// Altera um objeto cliente na base de dados.
         /// </summary>
-        /// <param name="clientDTO">Entidade cliente DTO</param>
+        /// <param name="customerDTO">Entidade cliente DTO</param>
         /// <returns>Status code e mensagem</returns>
         /// <remarks>
         /// Exemplo de requisição:
@@ -182,26 +182,26 @@ namespace DeployAWS.API.Controllers
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult Put([FromBody] ClientDto clientDTO)
+        public ActionResult Put([FromBody] CustomerDto customerDTO)
         {
             try
             {
-                if (clientDTO == null)
+                if (customerDTO == null)
                     return NotFound();
 
-                var result = _validator.Validate(clientDTO);
+                var result = _validator.Validate(customerDTO);
 
                 if (!result.IsValid)
                 {
                     return BadRequest(result.Errors);
                 }
 
-                var clientDB = _applicationServiceClient.GetByIdAsync(clientDTO.Id).Result;
+                //var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
 
-                if (clientDB == null)
-                    return BadRequest("Cliente informado não existe na base!");
+                //if (customerDB == null)
+                //    return BadRequest("Cliente informado não existe na base!");
 
-                _applicationServiceClient.Update(clientDTO);
+                _applicationServiceCustomer.Update(customerDTO);
                 return Ok("Cliente atualizado com sucesso!");
             }
             catch (ArgumentException arg)
@@ -240,7 +240,7 @@ namespace DeployAWS.API.Controllers
                 if (id == 0)
                     return NotFound();
 
-                var deleted = _applicationServiceClient.Remove(id);
+                var deleted = _applicationServiceCustomer.Remove(id);
 
                 if (deleted)
                     return Ok("Cliente removido com sucesso!");

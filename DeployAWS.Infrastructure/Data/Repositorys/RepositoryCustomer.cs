@@ -3,11 +3,12 @@ using DeployAWS.Domain.Entitys;
 
 namespace DeployAWS.Infrastructure.Data.Repositorys
 {
-    public class RepositoryClient : RepositoryBase<Client>, IRepositoryClient
+    public class RepositoryCustomer : RepositoryBase<Customer>, IRepositoryCustomer
     {
         private readonly AppDbContext _appDbContext;
 
-        public RepositoryClient(AppDbContext appDbContext) : base(appDbContext)
+        public RepositoryCustomer(AppDbContext appDbContext)
+            : base(appDbContext)
         {
             _appDbContext = appDbContext;
         }

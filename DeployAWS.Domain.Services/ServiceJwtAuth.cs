@@ -20,7 +20,7 @@ namespace DeployAWS.Domain.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, name),
-                    new Claim(ClaimTypes.Role, "client")
+                    new Claim(ClaimTypes.Role, "customer")
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

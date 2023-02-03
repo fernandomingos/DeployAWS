@@ -52,13 +52,13 @@ namespace DeployAWS.Application
                 if (product.Result == null)
                     return false;
 
-                _serviceProduct.Remove(id);
+                var result = _serviceProduct.Remove(id);
+                return result;
             }
             catch (Exception)
             {
                 return false;
             }
-            return false;
         }
 
         public void Update(ProductDto productDto)

@@ -29,13 +29,16 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
             return await _appDbNoSQLContext.Products.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public void Remove(string id) =>
-            _appDbNoSQLContext.Products.DeleteOne(p => p.Id == id);
+        public bool Remove(string id)
+        { 
+            var result = _appDbNoSQLContext.Products.DeleteOne(p => p.Id == id);
+            return result.DeletedCount > 0;
+        }
 
         public void Update(Product product) 
         {
-            //var filter = Builders<BsonDocument>.Filter.Eq("Id", product.Id);
-            //var result - _appDbNoSQLContext.Products.FindOneAndUpdateAsync(filter, product);
+            var filter = Builders<Product>.Filter.Eq("Id", product.Id);
+            _appDbNoSQLContext.Products.ReplaceOne(filter, product);
         }
     }
 }

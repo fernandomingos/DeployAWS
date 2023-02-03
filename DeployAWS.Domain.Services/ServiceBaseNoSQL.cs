@@ -26,8 +26,10 @@ namespace DeployAWS.Domain.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public void Remove(string id) =>
-            _repository.Remove(id);
+        public bool Remove(string id)
+        {
+           return _repository.Remove(id);
+        }
 
         public void Update(Product product) =>
             _repository.Update(product);

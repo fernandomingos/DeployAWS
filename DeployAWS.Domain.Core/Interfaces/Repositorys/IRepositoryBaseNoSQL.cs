@@ -10,7 +10,7 @@ namespace DeployAWS.Domain.Core.Interfaces.Repositorys
 
         void Update(Product product);
 
-        void Remove(string id);
+        bool Remove(string id);
 
         Task<IEnumerable<Product>> GetAllAsync();
 
