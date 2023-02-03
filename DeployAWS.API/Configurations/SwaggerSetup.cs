@@ -24,13 +24,12 @@ namespace DeployAWS.API.Configurations
 
                 var jwtSecurityScheme = new OpenApiSecurityScheme
                 {
-                    BearerFormat = "JWT",
-                    Name = "JWT Authentication",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
                     Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
-
+                    Name = "JWT Authentication",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer",
                     Reference = new OpenApiReference
                     {
                         Id = JwtBearerDefaults.AuthenticationScheme,
@@ -42,7 +41,7 @@ namespace DeployAWS.API.Configurations
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { jwtSecurityScheme, Array.Empty<string>() }
+                    { jwtSecurityScheme, new string[]{ } }
                 });
 
                 var xmlApiPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
