@@ -32,6 +32,11 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
             return await _appDbContext.Set<TEntity>().ToListAsync();
         }
 
+        public async Task<TEntity> GetAsync(TEntity obj)
+        {
+            return await _appDbContext.Set<TEntity>().FindAsync(obj);
+        }
+
         public async Task<TEntity> GetByIdAsync(int id)
         {
             return await _appDbContext.Set<TEntity>().FindAsync(id);

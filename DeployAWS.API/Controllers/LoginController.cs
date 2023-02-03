@@ -1,6 +1,6 @@
-﻿using DeployAWS.Application.Interfaces;
+﻿using DeployAWS.Application.Dtos;
+using DeployAWS.Application.Interfaces;
 using DeployAWS.Domain.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -13,33 +13,32 @@ namespace DeployAWS.API.Controllers
     public class LoginController : ControllerBase
     {
 
-        private readonly IApplicationServiceCustomer _applicationServiceCustomer;
+        private readonly IApplicationServiceUser _applicationServiceUser;
         private readonly IConfiguration _configuration;
 
-        public LoginController(IApplicationServiceCustomer applicationServiceCustomer, IConfiguration configuration)
+        public LoginController(IApplicationServiceUser applicationServiceUser, IConfiguration configuration)
         {
-            _applicationServiceCustomer = applicationServiceCustomer;
+            _applicationServiceUser = applicationServiceUser;
             _configuration = configuration;
         }
 
-        [HttpGet("{id}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(int id)
+        [HttpGet()]
+        public async Task<IActionResult> Login([FromBody]UserDto userDto)
         {
             try
             {
-                var customerDB = await _applicationServiceCustomer.GetByIdAsync(id);
+                var user = await _applicationServiceUser.GetAsync(userDto);
 
-                if (customerDB == null)
-                    return BadRequest(new { Message = "Id inválido." });
+                if (user == null)
+                    return BadRequest(new { Message = "Usuário inválido." });
 
 
-                var token = ServiceJwtAuth.GenerateToken(customerDB.Nome, _configuration);
+                var token = ServiceJwtAuth.GenerateToken(user, _configuration);
 
                 return Ok(new
                 {
                     Token = token,
-                    Usuario = customerDB
+                    Usuario = user
                 });
 
             }

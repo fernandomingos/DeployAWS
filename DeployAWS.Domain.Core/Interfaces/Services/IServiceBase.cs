@@ -14,5 +14,6 @@ namespace DeployAWS.Domain.Core.Interfaces.Services
         Task<IEnumerable<TEntity>> GetAllAsync();
 
         Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetAsync(TEntity obj);
     }
 }

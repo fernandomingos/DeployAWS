@@ -10,6 +10,7 @@ namespace DeployAWS.Infrastructure.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Customer> Clientes { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,6 +34,24 @@ namespace DeployAWS.Infrastructure.Data
                     new Customer { Id = 4, Nome = "Cliente 4", Sobrenome = "Teste 4", Email = "cliente4@teste.com", DataCadastro = DateTime.Now, IsAtivo = true },
                     new Customer { Id = 5, Nome = "Cliente 5", Sobrenome = "Teste 5", Email = "cliente5@teste.com", DataCadastro = DateTime.Now, IsAtivo = true }
                 );
+
+            builder.Entity<User>()
+                .Property(p => p.FirstName);
+
+            builder.Entity<User>()
+                .Property(p => p.LastName);
+
+            builder.Entity<User>()
+                .Property(p => p.UserName);
+            
+            builder.Entity<User>()
+                .Property(p => p.EmailAddress);
+
+            builder.Entity<User>()
+                .Property(p => p.Profile);
+
+            builder.Entity<User>()
+                .Property(p => p.CreateDate);
         }
 
         public override int SaveChanges()
