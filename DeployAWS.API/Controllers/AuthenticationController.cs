@@ -10,13 +10,13 @@ namespace DeployAWS.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
 
         private readonly IApplicationServiceCustomer _applicationServiceCustomer;
         private readonly IConfiguration _configuration;
 
-        public LoginController(IApplicationServiceCustomer applicationServiceCustomer, IConfiguration configuration)
+        public AuthenticationController(IApplicationServiceCustomer applicationServiceCustomer, IConfiguration configuration)
         {
             _applicationServiceCustomer = applicationServiceCustomer;
             _configuration = configuration;
@@ -24,7 +24,7 @@ namespace DeployAWS.API.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(int id)
+        public async Task<IActionResult> Authentication(int id)
         {
             try
             {
