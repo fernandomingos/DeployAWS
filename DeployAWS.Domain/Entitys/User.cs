@@ -4,11 +4,13 @@ namespace DeployAWS.Domain.Entitys
 {
     public class User : Base
     {
-        public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EmailAddress { get; set; }
-        public string Profile { get; set; }
+        public String UserName { get; set; }
+        public String FirstName { get; set; }
+        public String LastName { get; set; }
+        public String EmailAddress { get; set; }
+        public String Profile { get; set; }
+        public String Password { get; set; }
         public DateTime CreateDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace DeployAWS.Application.Dtos
         public String LastName { get; set; }
         public String EmailAddress { get; set; }
         public String Profile { get; set; }
+        public String Password { get; set; }
         public DateTime CreateDate { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace DeployAWS.Application.Validator
             RuleFor(c => c.LastName).MaximumLength(80);
 
             RuleFor(c => c.EmailAddress).NotNull().NotEmpty();
+
+            RuleFor(c => c.Password).NotNull().NotEmpty();
         }
     }
 }

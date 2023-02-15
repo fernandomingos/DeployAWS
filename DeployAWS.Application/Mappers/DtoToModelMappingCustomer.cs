@@ -19,7 +19,9 @@ namespace DeployAWS.Application.Mappers
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(x => x.LastName))
                 .ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(x => x.EmailAddress))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(x => x.Password))
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(x => x.CreateDate))
+                .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => x.ModifiedDate))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(x => x.IsActive));
         }
     }
