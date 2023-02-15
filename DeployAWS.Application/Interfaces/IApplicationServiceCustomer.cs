@@ -11,10 +11,10 @@ namespace DeployAWS.Application.Interfaces
 
         void Update(CustomerDto customerDto);
 
-        bool Remove(int id);
+        bool Remove(string id);
 
         Task<IEnumerable<CustomerDto>> GetAllAsync();
 
-        Task<CustomerDto> GetByIdAsync(int id);
+        Task<CustomerDto> GetByIdAsync(string id);
     }
 }

@@ -5,6 +5,6 @@ namespace DeployAWS.Application.Interfaces
 {
     public interface IApplicationServiceUser
     {
-        Task<UserDto> GetAsync(UserDto user);
+        Task<CustomerDto> GetByIdAsync(AuthenticationDto authenticationDto);
     }
 }

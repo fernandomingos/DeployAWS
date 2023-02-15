@@ -19,9 +19,9 @@ namespace DeployAWS.MSTest.Customer.Validation
             _customerDtoValidator = new CustomerDtoValidator();
 
             customerDto = _fixture.Build<CustomerDto>()
-                .With(c => c.Nome, string.Empty)
-                .With(c => c.Sobrenome, string.Empty)
-                .With(c => c.Email, string.Empty)
+                .With(c => c.FirstName, string.Empty)
+                .With(c => c.LastName, string.Empty)
+                .With(c => c.EmailAddress, string.Empty)
                 .Create();
         }
 
@@ -43,7 +43,7 @@ namespace DeployAWS.MSTest.Customer.Validation
         public void Test_Customer_Validator_Name_Exceeded_MaxLength()
         {
             var customerDto = _fixture.Build<CustomerDto>().Create();
-            customerDto.Nome = "012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+            customerDto.FirstName = "012345678901234567890123456789012345678901234567890123456789012345678901234567890";
             var validation = _customerDtoValidator.Validate(customerDto);
             validation.Errors.Should().NotBeNullOrEmpty();
         }
@@ -56,7 +56,7 @@ namespace DeployAWS.MSTest.Customer.Validation
         public void Test_Customer_Validator_LastName_Exceeded_MaxLength()
         {
             var customerDto = _fixture.Build<CustomerDto>().Create();
-            customerDto.Sobrenome = "012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+            customerDto.LastName = "012345678901234567890123456789012345678901234567890123456789012345678901234567890";
             var validation = _customerDtoValidator.Validate(customerDto);
             validation.Errors.Should().NotBeNullOrEmpty();
         }

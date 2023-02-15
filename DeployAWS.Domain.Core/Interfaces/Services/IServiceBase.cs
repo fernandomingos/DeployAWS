@@ -9,11 +9,11 @@ namespace DeployAWS.Domain.Core.Interfaces.Services
 
         void Update(TEntity obj);
 
-        void Remove(int id);
+        void Remove(string id);
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(string id);
         Task<TEntity> GetAsync(TEntity obj);
     }
 }

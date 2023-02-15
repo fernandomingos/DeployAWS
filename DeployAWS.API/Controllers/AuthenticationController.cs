@@ -10,35 +10,35 @@ namespace DeployAWS.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
 
-        private readonly IApplicationServiceUser _applicationServiceUser;
+        private readonly IApplicationServiceCustomer _applicationServiceCustomer;
         private readonly IConfiguration _configuration;
 
-        public LoginController(IApplicationServiceUser applicationServiceUser, IConfiguration configuration)
+        public AuthenticationController(IApplicationServiceCustomer applicationServiceCustomer, IConfiguration configuration)
         {
-            _applicationServiceUser = applicationServiceUser;
+            _applicationServiceCustomer = applicationServiceCustomer;
             _configuration = configuration;
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> Login([FromBody]UserDto userDto)
+        [HttpGet]
+        public async Task<IActionResult> Authentication([FromBody] AuthenticationDto authenticationDto)
         {
             try
             {
-                var user = await _applicationServiceUser.GetAsync(userDto);
+                var customer = await _applicationServiceCustomer.GetByIdAsync(authenticationDto.Id);
 
-                if (user == null)
+                if (customer == null)
                     return BadRequest(new { Message = "Usuário inválido." });
 
 
-                var token = ServiceJwtAuth.GenerateToken(user, _configuration);
+                var token = ServiceJwtAuth.GenerateToken(customer, _configuration);
 
                 return Ok(new
                 {
                     Token = token,
-                    Usuario = user
+                    Usuario = customer
                 });
 
             }

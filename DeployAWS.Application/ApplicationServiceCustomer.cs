@@ -33,7 +33,7 @@ namespace DeployAWS.Application
             return customerDto;
         }
 
-        public async Task<CustomerDto> GetByIdAsync(int id)
+        public async Task<CustomerDto> GetByIdAsync(string id)
         {
             var customer = await _serviceCustomer.GetByIdAsync(id);
             var customerDto = _mapper.Map<CustomerDto>(customer);
@@ -41,7 +41,7 @@ namespace DeployAWS.Application
             return customerDto;
         }
 
-        public bool Remove(int id)
+        public bool Remove(string id)
         {
             var customer = _serviceCustomer.GetByIdAsync(id);
 

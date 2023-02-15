@@ -2,9 +2,8 @@
 
 namespace DeployAWS.Domain.Entitys
 {
-    public class User
+    public class User : Base
     {
-        public string Id { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

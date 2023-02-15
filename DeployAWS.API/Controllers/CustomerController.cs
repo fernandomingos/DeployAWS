@@ -33,7 +33,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento!</response>
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin, client")]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -62,12 +62,12 @@ namespace DeployAWS.API.Controllers
         /// <response code="200">Retorna um cliente</response>
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento</response>
-        [HttpGet("{id:int}")]
-        [Authorize]
+        [HttpGet("{id}")]
+        [Authorize(Roles = "admin, client")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult> GetAsync(string id)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento</response>
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
@@ -125,6 +125,9 @@ namespace DeployAWS.API.Controllers
                 if (customerDTO == null)
                     return NotFound();
 
+                customerDTO.AddNewId();
+                //customerDTO.AddCreateDate();
+
                 var result = _validator.Validate(customerDTO);
 
                 if (!result.IsValid)
@@ -132,10 +135,10 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
+                //var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
 
-                if (customerDB != null)
-                    return NotFound("Cliente informado já existe na base");
+                //if (customerDB != null)
+                //    return NotFound("Cliente informado já existe na base");
 
                 var customer = _applicationServiceCustomer.Add(customerDTO);
 
@@ -177,7 +180,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento</response>
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(OkResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
@@ -195,11 +198,6 @@ namespace DeployAWS.API.Controllers
                 {
                     return BadRequest(result.Errors);
                 }
-
-                //var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
-
-                //if (customerDB == null)
-                //    return BadRequest("Cliente informado não existe na base!");
 
                 _applicationServiceCustomer.Update(customerDTO);
                 return Ok("Cliente atualizado com sucesso!");
@@ -227,17 +225,17 @@ namespace DeployAWS.API.Controllers
         /// <response code="400">Retorno caso cliente não exista</response>
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento</response> 
-        [HttpDelete("{id:int}")]
-        [Authorize]
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(OkResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             try
             {
-                if (id == 0)
+                if (string.IsNullOrEmpty(id))
                     return NotFound();
 
                 var deleted = _applicationServiceCustomer.Remove(id);

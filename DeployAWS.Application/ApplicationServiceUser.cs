@@ -2,28 +2,26 @@
 using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using DeployAWS.Domain.Core.Interfaces.Services;
-using DeployAWS.Domain.Entitys;
 using System.Threading.Tasks;
 
 namespace DeployAWS.Application
 {
     public class ApplicationServiceUser : IApplicationServiceUser
     {
-        private readonly IServiceUser _serviceUser;
+        private readonly IServiceCustomer _serviceCustomer;
         private readonly IMapper _mapper;
 
-        public ApplicationServiceUser(IServiceUser serviceUser
+        public ApplicationServiceUser(IServiceCustomer serviceCustomer
                                         , IMapper mapper)
         {
-            _serviceUser = serviceUser;
+            _serviceCustomer = serviceCustomer;
             _mapper = mapper;
         }
 
-        public async Task<UserDto> GetAsync(UserDto userDto)
+        public async Task<CustomerDto> GetByIdAsync(AuthenticationDto AuthenticationDto)
         {
-            var user = _mapper.Map<User>(userDto);
-            var userDB = await _serviceUser.GetAsync(user);
-            return _mapper.Map<UserDto>(userDB);             
+            var customerDto = await _serviceCustomer.GetByIdAsync(AuthenticationDto.Id);
+            return _mapper.Map<CustomerDto>(customerDto);             
         }
     }
 }

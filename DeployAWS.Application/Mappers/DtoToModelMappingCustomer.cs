@@ -15,12 +15,12 @@ namespace DeployAWS.Application.Mappers
         {
             CreateMap<CustomerDto, Customer>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(x => x.Id))
-                .ForMember(dest => dest.Nome, opt => opt.MapFrom(x => x.Nome))
-                .ForMember(dest => dest.Sobrenome, opt => opt.MapFrom(x => x.Sobrenome))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(x => x.Email))
-                .ForMember(dest => dest.DataCadastro, opt => opt.Ignore())
-                .ForMember(dest => dest.IsAtivo, opt => opt.Ignore());
-
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(x => x.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(x => x.LastName))
+                .ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(x => x.EmailAddress))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(x => x.CreateDate))
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(x => x.IsActive));
         }
     }
 }
