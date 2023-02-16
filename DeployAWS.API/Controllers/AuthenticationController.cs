@@ -1,6 +1,6 @@
-﻿using DeployAWS.Application.Interfaces;
+using DeployAWS.Application.Dtos;
+using DeployAWS.Application.Interfaces;
 using DeployAWS.Domain.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -22,24 +22,23 @@ namespace DeployAWS.API.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet("{id}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Authentication(int id)
+        [HttpGet]
+        public async Task<IActionResult> Authentication([FromBody] AuthenticationDto authenticationDto)
         {
             try
             {
-                var customerDB = await _applicationServiceCustomer.GetByIdAsync(id);
+                var customer = await _applicationServiceCustomer.GetByIdAsync(authenticationDto.Id);
 
-                if (customerDB == null)
-                    return BadRequest(new { Message = "Id inválido." });
+                if (customer == null)
+                    return BadRequest(new { Message = "Usuário inválido." });
 
 
-                var token = ServiceJwtAuth.GenerateToken(customerDB.Nome, _configuration);
+                var token = ServiceJwtAuth.GenerateToken(customer, _configuration);
 
                 return Ok(new
                 {
                     Token = token,
-                    Usuario = customerDB
+                    Usuario = customer
                 });
 
             }

@@ -7,13 +7,15 @@ namespace DeployAWS.Application.Validator
     {
         public CustomerDtoValidator()
         {
-            RuleFor(c => c.Nome).NotNull().NotEmpty();
-            RuleFor(c => c.Nome).MaximumLength(80);
+            RuleFor(c => c.FirstName).NotNull().NotEmpty();
+            RuleFor(c => c.FirstName).MaximumLength(80);
 
-            RuleFor(c => c.Sobrenome).NotNull().NotEmpty();
-            RuleFor(c => c.Sobrenome).MaximumLength(80);
+            RuleFor(c => c.LastName).NotNull().NotEmpty();
+            RuleFor(c => c.LastName).MaximumLength(80);
 
-            RuleFor(c => c.Email).NotNull().NotEmpty();
+            RuleFor(c => c.EmailAddress).NotNull().NotEmpty();
+
+            RuleFor(c => c.Password).NotNull().NotEmpty();
         }
     }
 }

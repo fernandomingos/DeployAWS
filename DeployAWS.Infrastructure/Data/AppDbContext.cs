@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using DeployAWS.Domain.Entitys;
-using System;
-using System.Linq;
+﻿using DeployAWS.Domain.Entitys;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeployAWS.Infrastructure.Data
 {
@@ -9,46 +7,84 @@ namespace DeployAWS.Infrastructure.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Customer> Clientes { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Customer>()
-                .Property(p => p.Nome)
-                .HasMaxLength(80);
+            #region Customer
 
             builder.Entity<Customer>()
-                .Property(p => p.Sobrenome)
-                .HasMaxLength(80);
+                .Property(p => p.Id)
+                .HasMaxLength(37);
 
             builder.Entity<Customer>()
-                .Property(p => p.Email)
-                .HasMaxLength(80);
+                .Property(p => p.UserName);
 
             builder.Entity<Customer>()
-                .HasData(
-                    new Customer { Id = 1, Nome = "Cliente 1", Sobrenome = "Teste 1", Email = "cliente1@teste.com", DataCadastro = DateTime.Now, IsAtivo = true },
-                    new Customer { Id = 2, Nome = "Cliente 2", Sobrenome = "Teste 2", Email = "cliente2@teste.com", DataCadastro = DateTime.Now, IsAtivo = true },
-                    new Customer { Id = 3, Nome = "Cliente 3", Sobrenome = "Teste 3", Email = "cliente3@teste.com", DataCadastro = DateTime.Now, IsAtivo = true },
-                    new Customer { Id = 4, Nome = "Cliente 4", Sobrenome = "Teste 4", Email = "cliente4@teste.com", DataCadastro = DateTime.Now, IsAtivo = true },
-                    new Customer { Id = 5, Nome = "Cliente 5", Sobrenome = "Teste 5", Email = "cliente5@teste.com", DataCadastro = DateTime.Now, IsAtivo = true }
-                );
+                .Property(p => p.FirstName);
+
+            builder.Entity<Customer>()
+                .Property(p => p.LastName);
+
+            builder.Entity<Customer>()
+                .Property(p => p.EmailAddress);
+
+            builder.Entity<Customer>()
+                .Property(p => p.Profile);
+            
+            builder.Entity<Customer>()
+                .Property(p => p.Password);
+
+            builder.Entity<Customer>()
+                .Property(p => p.CreateDate);
+
+            builder.Entity<Customer>()
+                .Property(p => p.ModifiedDate);
+
+            builder.Entity<Customer>()
+                .Property(p => p.IsActive);
+
+            #endregion Customer
+
+            #region Order
+
+            //builder.Entity<Order>()
+            //    .Property(p => p.Id)
+            //    .HasMaxLength(37);
+
+            //builder.Entity<Order>()
+            //    .Property(p => p.Customer);
+
+            //builder.Entity<Order>()
+            //    .Property(p => p.Items);
+
+            //builder.Entity<Order>()
+            //    .Property(p => p.Status);
+
+            //builder.Entity<Order>()
+            //    .Property(p => p.CreateDate);
+
+            //builder.Entity<Order>()
+            //    .Property(p => p.ModifiedDate);
+
+            #endregion Order
         }
 
-        public override int SaveChanges()
-        {
-            foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataCadastro") != null))
-            {
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Property("DataCadastro").CurrentValue = DateTime.Now;
-                }
-                if (entry.State == EntityState.Modified)
-                {
-                    entry.Property("DataCadastro").IsModified = false;
-                }
-            }
-            return base.SaveChanges();
-        }
+        //public override int SaveChanges()
+        //{
+        //    foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataCadastro") != null))
+        //    {
+        //        if (entry.State == EntityState.Added)
+        //        {
+        //            entry.Property("CreateDate").CurrentValue = DateTime.Now;
+        //        }
+        //        if (entry.State == EntityState.Modified)
+        //        {
+        //            entry.Property("CreateDate").IsModified = false;
+        //        }
+        //    }
+        //    return base.SaveChanges();
+        //}
     }
 }

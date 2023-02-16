@@ -1,15 +1,34 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeployAWS.Application.Dtos
 {
     public class CustomerDto
     {
-        public int Id { get; set; }
+        public String Id { get; private set;  }
         [Required]
-        public string Nome { get; set; }
+        public String UserName { get; set; }
         [Required]
-        public string Sobrenome { get; set; }
+        public String FirstName { get; set; }
         [Required]
-        public string Email { get; set; }
+        public String LastName { get; set; }
+        [Required]
+        public String EmailAddress { get; set; }
+        [Required]
+        public String Profile { get; set; }
+        public String Password { get; set; }
+        public DateTime CreateDate { get; private set; }
+        public DateTime ModifiedDate { get; private set; }
+        public bool IsActive { get; set; }
+
+        public void AddNewId()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
+        //public void AddCreateDate()
+        //{
+        //    CreateDate = DateTime.Now;
+        //}
     }
 }

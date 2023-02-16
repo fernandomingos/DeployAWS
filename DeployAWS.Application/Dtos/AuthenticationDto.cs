@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace DeployAWS.Domain.Entitys
+namespace DeployAWS.Application.Dtos
 {
-    public class Base
+    public class AuthenticationDto
     {
         public String Id { get; set; }
     }

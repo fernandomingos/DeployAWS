@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DeployAWS.Application.Dtos;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,7 +10,7 @@ namespace DeployAWS.Domain.Services
 {
     public static class ServiceJwtAuth
     {
-        public static string GenerateToken(string name, IConfiguration configuration)
+        public static string GenerateToken(CustomerDto customerDto, IConfiguration configuration)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var secretKey = configuration.GetValue<string>("Jwt:SecretKey");
@@ -19,8 +20,8 @@ namespace DeployAWS.Domain.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, name),
-                    new Claim(ClaimTypes.Role, "customer")
+                    new Claim(ClaimTypes.Name, customerDto.UserName),
+                    new Claim(ClaimTypes.Role, customerDto.Profile)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

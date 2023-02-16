@@ -6,6 +6,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -58,7 +59,7 @@ namespace DeployAWS.MSTest.Customer.Controller
         public async Task CustomerController_GetByIdAsync_ShouldReturn_NotNull()
         {
             // Arrange
-            var mockId = 10;
+            string mockId = Guid.NewGuid().ToString();
             _mockApplicationServiceCustomer.Setup(c => c.GetByIdAsync(mockId)).ReturnsAsync(MockListCustomerDto().First());
             var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
 
@@ -72,7 +73,7 @@ namespace DeployAWS.MSTest.Customer.Controller
         public async Task CustomerController_GetByIdAsync_ShouldReturn_StatusCode_200()
         {
             // Arrange
-            var mockId = 10;
+            string mockId = Guid.NewGuid().ToString();
             _mockApplicationServiceCustomer.Setup(c => c.GetByIdAsync(mockId)).ReturnsAsync(MockListCustomerDto().First());
             var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
 

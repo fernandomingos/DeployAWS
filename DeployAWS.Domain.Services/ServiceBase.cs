@@ -24,12 +24,17 @@ namespace DeployAWS.Domain.Services
             return await _repository.GetAllAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetAsync(TEntity obj)
+        {
+            return await _repository.GetAsync(obj);
+        }
+
+        public async Task<TEntity> GetByIdAsync(string id)
         {
             return await _repository.GetByIdAsync(id);
         }
 
-        public void Remove(int id)
+        public void Remove(string id)
         {
             var obj = _repository.GetByIdAsync(id);
             _repository.Remove(obj.Result);

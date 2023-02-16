@@ -18,10 +18,13 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
 
             builder.RegisterType<ApplicationServiceCustomer>().As<IApplicationServiceCustomer>();
             builder.RegisterType<ApplicationServiceProduct>().As<IApplicationServiceProduct>();
+            builder.RegisterType<ApplicationServiceUser>().As<IApplicationServiceUser>();
             builder.RegisterType<ServiceCustomer>().As<IServiceCustomer>();
             builder.RegisterType<ServiceProduct>().As<IServiceProduct>();
+            builder.RegisterType<ServiceUser>().As<IServiceUser>();
             builder.RegisterType<RepositoryCustomer>().As<IRepositoryCustomer>();
             builder.RegisterType<RepositoryProduct>().As<IRepositoryProduct>();
+            builder.RegisterType<RepositoryUser>().As<IRepositoryUser>();
 
             builder.Register(ctx => new MapperConfiguration(cfg =>
             {
@@ -29,6 +32,8 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
                 cfg.AddProfile(new ModelToDtoMappingCustomer());
                 cfg.AddProfile(new DtoToModelMappingProduct());
                 cfg.AddProfile(new ModelToDtoMappingProduct());
+                cfg.AddProfile(new DtoToModelMappingUser());
+                cfg.AddProfile(new ModelToDtoMappingUser());
 
             }));
 
