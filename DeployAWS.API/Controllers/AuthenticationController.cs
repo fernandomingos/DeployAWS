@@ -1,5 +1,7 @@
+using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using DeployAWS.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DeployAWS.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("v1/account")]
     [ApiController]
     [Produces("application/json")]
     public class AuthenticationController : ControllerBase
@@ -27,32 +29,34 @@ namespace DeployAWS.API.Controllers
         }
 
         /// <summary>
-        /// Recupera um objeto authentication pelo id.
+        /// Recupera objeto login pelo username e password.
         /// </summary>
         /// <param name="id"></param>
         /// <response code="200">Retorna um objeto de autenticação</response>
         /// <response code="404">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Authentication(String id)
+        [HttpPost]
+        [Route("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Authentication([FromBody] LoginDto login)
         {
             try
             {
                 _logger.LogInformation($"##### Executando requisição Authentication => AuthenticationController #####");
-                var customer = await _applicationServiceCustomer.GetByIdAsync(id);
+                var customerDto = await _applicationServiceCustomer.PostLoginAsync(login);
 
-                if (customer == null)
+                if (customerDto == null)
                 {
                     _logger.LogInformation($"##### Usuário inválido! #####");
                     return BadRequest(new { Message = "Usuário inválido." });
                 }
 
-                var token = ServiceJwtAuth.GenerateToken(customer, _configuration);
+                var token = ServiceJwtAuth.GenerateToken(customerDto, _configuration);
 
                 return Ok(new
                 {
                     Token = token,
-                    Usuario = customer
+                    Usuario = customerDto
                 });
 
             }

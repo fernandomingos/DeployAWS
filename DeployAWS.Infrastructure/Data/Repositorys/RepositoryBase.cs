@@ -1,4 +1,5 @@
 ﻿using DeployAWS.Domain.Core.Interfaces.Repositorys;
+using DeployAWS.Domain.Entitys;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -64,6 +65,21 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
             }
             catch
             {
+                throw;
+            }
+        }
+
+        public async Task<TEntity> PostLoginAsync(Login login)
+        {
+            try
+            {
+                var customer = _appDbContext.Customers.FirstOrDefaultAsync(x => x.UserName == login.UserName && x.Password == login.Password).Result;
+                var customerEntity = await _appDbContext.Set<TEntity>().FindAsync(customer.Id);
+                return customerEntity;
+            }
+            catch (System.Exception ex)
+            {
+
                 throw;
             }
         }

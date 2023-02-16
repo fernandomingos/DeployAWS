@@ -34,7 +34,8 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
                 cfg.AddProfile(new ModelToDtoMappingProduct());
                 cfg.AddProfile(new DtoToModelMappingUser());
                 cfg.AddProfile(new ModelToDtoMappingUser());
-
+                cfg.AddProfile(new DtoToModelMappingLogin());
+                cfg.AddProfile(new ModelToDtoMappingLogin());
             }));
 
             builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>().InstancePerLifetimeScope();
