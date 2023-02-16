@@ -1,5 +1,4 @@
-﻿using DeployAWS.Application.Dtos;
-using DeployAWS.Application.Interfaces;
+﻿using DeployAWS.Application.Interfaces;
 using DeployAWS.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,13 +26,20 @@ namespace DeployAWS.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Authentication([FromBody] AuthenticationDto authenticationDto)
+        /// <summary>
+        /// Recupera um objeto authentication pelo id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">Retorna um objeto de autenticação</response>
+        /// <response code="404">Não há conteúdo para ser exibido</response>
+        /// <response code="500">Erro interno de processamento</response>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Authentication(String id)
         {
             try
             {
                 _logger.LogInformation($"##### Executando requisição Authentication => AuthenticationController #####");
-                var customer = await _applicationServiceCustomer.GetByIdAsync(authenticationDto.Id);
+                var customer = await _applicationServiceCustomer.GetByIdAsync(id);
 
                 if (customer == null)
                 {
