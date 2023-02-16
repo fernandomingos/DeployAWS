@@ -2,6 +2,7 @@ using Autofac;
 using DeployAWS.API.Configurations;
 using DeployAWS.Infrastructure.CrossCutting.IOC;
 using DeployAWS.Infrastructure.Data;
+using DnsClient.Internal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace DeployAWS.API
 {
@@ -65,6 +67,9 @@ namespace DeployAWS.API
             });
 
             app.UseHealthChecks("/healthcheck");
+
+            //var logger = loggerFactory.CreateLogger("ConsoleLogger");
+            //logger.LogInformation($"### Executando método Configure()... { DateTime.Now.ToLongTimeString() }");
         }
     }
 }

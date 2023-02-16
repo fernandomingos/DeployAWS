@@ -1,9 +1,12 @@
-﻿using AutoFixture;
+﻿using Amazon.Runtime.Internal.Util;
+using AutoFixture;
+using DeployAWS.API.Controllers;
 using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -20,12 +23,14 @@ namespace DeployAWS.MSTest.Product.Controller
         private static Fixture _fixture;
         private readonly Mock<IApplicationServiceProduct> _mockApplicationServiceProduct;
         private readonly Mock<IValidator<ProductDto>> _validatorProduct;
+        private readonly Mock<ILogger<ProductController>> _logger;
 
         public ProductControllerTests()
         {
             _fixture = new Fixture();
             _mockApplicationServiceProduct = new Mock<IApplicationServiceProduct>();
             _validatorProduct = new Mock<IValidator<ProductDto>>();
+            _logger = new Mock<ILogger<ProductController>>();
         }
 
         [TestMethod]
@@ -33,7 +38,8 @@ namespace DeployAWS.MSTest.Product.Controller
         {
             // Arrange
             _mockApplicationServiceProduct.Setup(c => c.GetAllAsync()).ReturnsAsync(MockListProductDto());
-            var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
+            var controllerMock = new ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object,
+                _logger.Object);
 
             // Act
             var result = await controllerMock.GetAsync();
@@ -46,7 +52,8 @@ namespace DeployAWS.MSTest.Product.Controller
         {
             // Arrange
             _mockApplicationServiceProduct.Setup(c => c.GetAllAsync()).ReturnsAsync(MockListProductDto());
-            var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
+            var controllerMock = new ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object,
+                _logger.Object);
 
             // Act_mockApplicationServiceProduct
             var result = await controllerMock.GetAsync();
@@ -61,7 +68,8 @@ namespace DeployAWS.MSTest.Product.Controller
             // Arrange
             var mockId = Guid.NewGuid().ToString();
             _mockApplicationServiceProduct.Setup(c => c.GetByIdAsync(mockId)).ReturnsAsync(MockListProductDto().First());
-            var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
+            var controllerMock = new ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object,
+                _logger.Object);
 
             // Act
             var result = await controllerMock.GetAsync();
@@ -75,7 +83,8 @@ namespace DeployAWS.MSTest.Product.Controller
             // Arrange
             var mockId = Guid.NewGuid().ToString();
             _mockApplicationServiceProduct.Setup(c => c.GetByIdAsync(mockId)).ReturnsAsync(MockListProductDto().First());
-            var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
+            var controllerMock = new ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object,
+                _logger.Object);
 
             // Act_mockApplicationServiceProduct
             var result = await controllerMock.GetAsync();
@@ -89,7 +98,8 @@ namespace DeployAWS.MSTest.Product.Controller
         {
             // Arrange
             _mockApplicationServiceProduct.Setup(c => c.Update(new ProductDto()));
-            var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
+            var controllerMock = new ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object,
+                _logger.Object);
 
             // Act
             var result = controllerMock.Post(null);
@@ -103,7 +113,8 @@ namespace DeployAWS.MSTest.Product.Controller
         {
             // Arrange
             _mockApplicationServiceProduct.Setup(c => c.Update(new ProductDto()));
-            var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
+            var controllerMock = new ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object,
+                _logger.Object);
 
             // Act
             var result = controllerMock.Post(new ProductDto());
@@ -117,7 +128,8 @@ namespace DeployAWS.MSTest.Product.Controller
         {
             // Arrange
             _mockApplicationServiceProduct.Setup(c => c.Update(new ProductDto()));
-            var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
+            var controllerMock = new ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object,
+                _logger.Object);
 
             // Act
             var result = controllerMock.Put(null);
@@ -131,7 +143,8 @@ namespace DeployAWS.MSTest.Product.Controller
         {
             // Arrange
             _mockApplicationServiceProduct.Setup(c => c.Update(new ProductDto()));
-            var controllerMock = new API.Controllers.ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object);
+            var controllerMock = new ProductController(_mockApplicationServiceProduct.Object, _validatorProduct.Object,
+                _logger.Object);
 
             // Act
             var result = controllerMock.Post(new ProductDto());

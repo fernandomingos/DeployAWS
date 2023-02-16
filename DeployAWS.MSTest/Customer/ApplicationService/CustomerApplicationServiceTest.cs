@@ -4,6 +4,7 @@ using DeployAWS.Application;
 using DeployAWS.Application.Dtos;
 using DeployAWS.Domain.Core.Interfaces.Services;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -14,14 +15,16 @@ namespace DeployAWS.MSTest.Customer.ApplicationService
     public class CustomerApplicationServiceTest
     {
         private static Fixture _fixture;
-        private Mock<IServiceCustomer> _serviceCustomerMock;
-        private Mock<IMapper> _mapperMock;
+        private readonly Mock<IServiceCustomer> _serviceCustomerMock;
+        private readonly Mock<IMapper> _mapperMock;
+        private readonly Mock<ILogger<ApplicationServiceCustomer>> _logger;
 
         public CustomerApplicationServiceTest()
         {
             _fixture = new Fixture();
             _serviceCustomerMock = new Mock<IServiceCustomer>();
             _mapperMock = new Mock<IMapper>();
+            _logger = new Mock<ILogger<ApplicationServiceCustomer>>();
         }
 
         [TestMethod]
@@ -32,7 +35,7 @@ namespace DeployAWS.MSTest.Customer.ApplicationService
             var CustomersDto = _fixture.Build<CustomerDto>().CreateMany(5);
             _serviceCustomerMock.Setup(x => x.GetAllAsync().Result).Returns(Customers);
             _mapperMock.Setup(x => x.Map<IEnumerable<CustomerDto>>(Customers)).Returns(CustomersDto);
-            var applicationServiceCustomer = new ApplicationServiceCustomer(_serviceCustomerMock.Object, _mapperMock.Object);
+            var applicationServiceCustomer = new ApplicationServiceCustomer(_serviceCustomerMock.Object, _mapperMock.Object, _logger.Object);
 
             //Act
             var response = applicationServiceCustomer.GetAllAsync();
@@ -64,7 +67,7 @@ namespace DeployAWS.MSTest.Customer.ApplicationService
             _serviceCustomerMock.Setup(x => x.GetByIdAsync(IdMock).Result).Returns(Customer);
             _mapperMock.Setup(x => x.Map<CustomerDto>(Customer)).Returns(CustomerDto);
 
-            var applicationServiceCustomer = new ApplicationServiceCustomer(_serviceCustomerMock.Object, _mapperMock.Object);
+            var applicationServiceCustomer = new ApplicationServiceCustomer(_serviceCustomerMock.Object, _mapperMock.Object, _logger.Object);
 
             //Act
             var response = applicationServiceCustomer.GetByIdAsync(IdMock);

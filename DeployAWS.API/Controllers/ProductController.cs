@@ -4,6 +4,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,14 @@ namespace DeployAWS.API.Controllers
     {
         private readonly IApplicationServiceProduct _applicationServiceProduct;
         private readonly IValidator<ProductDto> _validator;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(IApplicationServiceProduct applicationServiceProduct, IValidator<ProductDto> validator)
+        public ProductController(IApplicationServiceProduct applicationServiceProduct, IValidator<ProductDto> validator,
+            ILogger<ProductController> logger)
         {
             _applicationServiceProduct = applicationServiceProduct;
             _validator = validator;
+            _logger = logger;
         }
 
         /// <summary>
@@ -44,20 +48,24 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
+                _logger.LogInformation("##### Enviando requisição GetAsync => ProductController #####");
                 var result = await _applicationServiceProduct.GetAllAsync();
 
                 return Ok(result.ToList());
             }
             catch (ArgumentException arg)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {arg.Message} #####");
                 return BadRequest(arg);
             }
             catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {val.Message} #####");
                 return BadRequest(val);
             }
             catch (Exception ex)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {ex.Message} #####");
                 return StatusCode(500, ex);
             }
         }
@@ -78,20 +86,24 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"##### Enviando requisição GetAsync => ProductController - id: {id} #####");
                 var response = await _applicationServiceProduct.GetByIdAsync(id);
 
                 return Ok(response);
             }
             catch (ArgumentException arg)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {arg.Message} #####");
                 return BadRequest(arg);
             }
             catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {val.Message} #####");
                 return BadRequest(val);
             }
             catch (Exception ex)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {ex.Message} #####");
                 return StatusCode(500, ex);
             }
         }
@@ -125,8 +137,13 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"##### Enviando requisição Post => ProductController - id: {productDTO.Id} #####");
+
                 if (productDTO == null)
+                {
+                    _logger.LogInformation($"##### Produto com id: {productDTO.Id} não encontrado! #####");
                     return NotFound();
+                }
 
                 var result = _validator.Validate(productDTO);
 
@@ -142,14 +159,17 @@ namespace DeployAWS.API.Controllers
             }
             catch (ArgumentException arg)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {arg.Message} #####");
                 return BadRequest(arg);
             }
             catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {val.Message} #####");
                 return BadRequest(val);
             }
             catch (Exception ex)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {ex.Message} #####");
                 return StatusCode(500, ex);
             }
         }
@@ -178,8 +198,13 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"##### Enviando requisição Put => ProductController - id: {productDTO.Id} #####");
+
                 if (productDTO == null)
+                {
+                    _logger.LogInformation($"##### Produto com id: {productDTO.Id} não encontrado! #####");
                     return NotFound();
+                }
 
                 var result = _validator.Validate(productDTO);
 
@@ -194,14 +219,17 @@ namespace DeployAWS.API.Controllers
             }
             catch (ArgumentException arg)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {arg.Message} #####");
                 return BadRequest(arg);
             }
             catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {val.Message} #####");
                 return BadRequest(val);
             }
             catch (Exception ex)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {ex.Message} #####");
                 return StatusCode(500, ex);
             }
         }
@@ -223,8 +251,13 @@ namespace DeployAWS.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"##### Enviando requisição Delete => ProductController - id: {id} #####");
+
                 if (id == "")
+                {
+                    _logger.LogInformation($"##### Produto com id: {id} não encontrado! #####");
                     return NotFound();
+                }
 
                 var deleted = _applicationServiceProduct.Remove(id);
 
@@ -236,14 +269,17 @@ namespace DeployAWS.API.Controllers
             }
             catch (ArgumentException arg)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {arg.Message} #####");
                 return BadRequest(arg);
             }
             catch (System.ComponentModel.DataAnnotations.ValidationException val)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {val.Message} #####");
                 return BadRequest(val);
             }
             catch (Exception ex)
             {
+                _logger.LogCritical($"##### Ocorreu um erro durante o processamento da requisição. Detalhes: {ex.Message} #####");
                 return StatusCode(500, ex);
             }
         }

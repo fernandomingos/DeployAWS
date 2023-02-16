@@ -1,9 +1,11 @@
 using AutoFixture;
+using DeployAWS.API.Controllers;
 using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -19,13 +21,15 @@ namespace DeployAWS.MSTest.Customer.Controller
     {
         private static Fixture _fixture;
         private readonly Mock<IApplicationServiceCustomer> _mockApplicationServiceCustomer;
-        private readonly Mock<IValidator<CustomerDto>> validatorCustomer;
+        private readonly Mock<IValidator<CustomerDto>> _validatorCustomer;
+        private readonly Mock<ILogger<CustomerController>> _logger;
 
         public CustomerControllerTests() 
         {
             _fixture = new Fixture();
             _mockApplicationServiceCustomer = new Mock<IApplicationServiceCustomer>();
-            validatorCustomer = new Mock<IValidator<CustomerDto>>();
+            _validatorCustomer = new Mock<IValidator<CustomerDto>>();
+            _logger = new Mock<ILogger<CustomerController>>();
         }
 
         [TestMethod]
@@ -33,7 +37,7 @@ namespace DeployAWS.MSTest.Customer.Controller
         {
             // Arrange
             _mockApplicationServiceCustomer.Setup(c => c.GetAllAsync()).ReturnsAsync(MockListCustomerDto());
-            var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
+            var controllerMock = new CustomerController(_mockApplicationServiceCustomer.Object, _validatorCustomer.Object, _logger.Object);
 
             // Act
             var result = await controllerMock.GetAsync();
@@ -46,7 +50,7 @@ namespace DeployAWS.MSTest.Customer.Controller
         {
             // Arrange
             _mockApplicationServiceCustomer.Setup(c => c.GetAllAsync()).ReturnsAsync(MockListCustomerDto());
-            var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
+            var controllerMock = new CustomerController(_mockApplicationServiceCustomer.Object, _validatorCustomer.Object, _logger.Object);
 
             // Act
             var result = await controllerMock.GetAsync();
@@ -61,7 +65,7 @@ namespace DeployAWS.MSTest.Customer.Controller
             // Arrange
             string mockId = Guid.NewGuid().ToString();
             _mockApplicationServiceCustomer.Setup(c => c.GetByIdAsync(mockId)).ReturnsAsync(MockListCustomerDto().First());
-            var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
+            var controllerMock = new CustomerController(_mockApplicationServiceCustomer.Object, _validatorCustomer.Object, _logger.Object);
 
             // Act
             var result = await controllerMock.GetAsync();
@@ -75,7 +79,7 @@ namespace DeployAWS.MSTest.Customer.Controller
             // Arrange
             string mockId = Guid.NewGuid().ToString();
             _mockApplicationServiceCustomer.Setup(c => c.GetByIdAsync(mockId)).ReturnsAsync(MockListCustomerDto().First());
-            var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
+            var controllerMock = new CustomerController(_mockApplicationServiceCustomer.Object, _validatorCustomer.Object, _logger.Object);
 
             // Act
             var result = await controllerMock.GetAsync();
@@ -89,7 +93,7 @@ namespace DeployAWS.MSTest.Customer.Controller
         {
             // Arrange
             _mockApplicationServiceCustomer.Setup(c => c.Update(new CustomerDto()));
-            var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
+            var controllerMock = new CustomerController(_mockApplicationServiceCustomer.Object, _validatorCustomer.Object, _logger.Object);
 
             // Act
             var result = controllerMock.Post(null);
@@ -103,7 +107,7 @@ namespace DeployAWS.MSTest.Customer.Controller
         {
             // Arrange
             _mockApplicationServiceCustomer.Setup(c => c.Update(new CustomerDto()));
-            var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
+            var controllerMock = new CustomerController(_mockApplicationServiceCustomer.Object, _validatorCustomer.Object, _logger.Object);
 
             // Act
             var result = controllerMock.Post(new CustomerDto());
@@ -117,7 +121,7 @@ namespace DeployAWS.MSTest.Customer.Controller
         {
             // Arrange
             _mockApplicationServiceCustomer.Setup(c => c.Update(new CustomerDto()));
-            var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
+            var controllerMock = new CustomerController(_mockApplicationServiceCustomer.Object, _validatorCustomer.Object, _logger.Object);
 
             // Act
             var result = controllerMock.Put(null);
@@ -131,7 +135,7 @@ namespace DeployAWS.MSTest.Customer.Controller
         {
             // Arrange
             _mockApplicationServiceCustomer.Setup(c => c.Update(new CustomerDto()));
-            var controllerMock = new API.Controllers.CustomerController(_mockApplicationServiceCustomer.Object, validatorCustomer.Object);
+            var controllerMock = new CustomerController(_mockApplicationServiceCustomer.Object, _validatorCustomer.Object, _logger.Object);
 
             // Act
             var result = controllerMock.Post(new CustomerDto());
