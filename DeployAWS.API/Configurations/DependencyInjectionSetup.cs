@@ -15,6 +15,7 @@ namespace DeployAWS.API.Configurations
 
             services.AddScoped<IValidator<CustomerDto>, CustomerDtoValidator>();
             services.AddScoped<IValidator<ProductDto>, ProductDtoValidator>();
+            services.AddScoped<IValidator<LoginDto>, LoginDtoValidator>();
         }
     }
 }

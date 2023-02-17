@@ -13,6 +13,6 @@ namespace DeployAWS.Application.Interfaces
         bool Remove(String id);
         Task<IEnumerable<CustomerDto>> GetAllAsync();
         Task<CustomerDto> GetByIdAsync(String id);
-        Task<CustomerDto> PostLoginAsync(LoginDto login);
+        Task<CustomerDto> PostLoginAsync(LoginDto loginDto);
     }
 }

@@ -3,18 +3,12 @@ using FluentValidation;
 
 namespace DeployAWS.Application.Validator
 {
-    public class CustomerDtoValidator : AbstractValidator<CustomerDto>
+    public class LoginDtoValidator : AbstractValidator<LoginDto>
     {
-        public CustomerDtoValidator()
+        public LoginDtoValidator() 
         {
             RuleFor(c => c.UserName).NotEmpty();
             RuleFor(c => c.UserName).MaximumLength(20);
-
-            RuleFor(c => c.FirstName).NotEmpty();
-            RuleFor(c => c.FirstName).MaximumLength(20);
-
-            RuleFor(c => c.LastName).NotEmpty();
-            RuleFor(c => c.LastName).MaximumLength(20);
 
             RuleFor(p => p.Password)
                 .MinimumLength(8).WithMessage("O tamanho da sua senha deve ser de pelo menos 8 dígitos.")
@@ -23,12 +17,6 @@ namespace DeployAWS.Application.Validator
                 .Matches(@"[a-z]+").WithMessage("Sua senha deve conter pelo menos uma letra minúscula.")
                 .Matches(@"[0-9]+").WithMessage("Sua senha deve conter pelo menos um número.")
                 .Matches(@"[\!\?\*\.]+").WithMessage("Sua senha deve conter pelo menos um carácter especial (!? *.)");
-
-            RuleFor(c => c.EmailAddress).NotEmpty();
-            RuleFor(c => c.EmailAddress).MaximumLength(40);
-
-            RuleFor(c => c.Profile).NotEmpty();
-            RuleFor(c => c.Profile).MaximumLength(20);
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeployAWS.API.Controllers
@@ -36,7 +37,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento!</response>
         [HttpGet]
-        //[Authorize(Roles = "admin, client")]
+        [Authorize]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -75,7 +76,7 @@ namespace DeployAWS.API.Controllers
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetAsync(string id)
+        public async Task<ActionResult> GetAsync(String id)
         {
             try
             {
@@ -114,12 +115,14 @@ namespace DeployAWS.API.Controllers
         /// <remarks>
         /// Exemplo de requisição:
         /// 
-        ///     PUT
+        ///     POST
         ///     {
-        ///       "id" = 1,
-        ///       "nome" = "Michael",
-        ///       "sobrenome" = "Jackson",
-        ///       "email" = "michael.jackson@neverland.com"
+	    ///         "userName": "Pele",
+	    ///         "firstName": "Edson",
+	    ///         "lastName": "Arantes",
+	    ///         "password": "3Di5*nP3L#",
+	    ///         "emailAddress": "edsonarantes@teste.com",
+	    ///         "profile": "client"
         ///     }
         /// 
         /// </remarks>
@@ -146,19 +149,19 @@ namespace DeployAWS.API.Controllers
                 }
                     
                 customerDTO.AddNewId();
-                //customerDTO.AddCreateDate();
+                customerDTO.AddCreateDate();
 
                 var result = _validator.Validate(customerDTO);
 
                 if (!result.IsValid)
                 {
-                    return BadRequest(result.Errors);
+                    return BadRequest(result.Errors.Select(x => x.ErrorMessage).ToArray());
                 }
 
-                //var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
+                var customerDB = _applicationServiceCustomer.GetByIdAsync(customerDTO.Id).Result;
 
-                //if (customerDB != null)
-                //    return NotFound("Cliente informado já existe na base");
+                if (customerDB != null)
+                    return NotFound("Cliente informado já existe na base");
 
                 var customer = _applicationServiceCustomer.Add(customerDTO);
 
@@ -189,12 +192,14 @@ namespace DeployAWS.API.Controllers
         /// <remarks>
         /// Exemplo de requisição:
         /// 
-        ///     POST
+        ///     PUT
         ///     {
-        ///       "id" = 1,
-        ///       "nome" = "Michael",
-        ///       "sobrenome" = "Jackson",
-        ///       "email" = "michael.jackson@neverland.com"
+	    ///         "userName": "Pele",
+	    ///         "firstName": "Edson",
+	    ///         "lastName": "Arantes",
+	    ///         "password": "3Di5*nP3L#",
+	    ///         "emailAddress": "edsonarantes@teste.com",
+	    ///         "profile": "client"
         ///     }
         /// 
         /// </remarks>
@@ -227,7 +232,9 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
+                customerDTO.AddModifiedDate();
                 _applicationServiceCustomer.Update(customerDTO);
+
                 return Ok("Cliente atualizado com sucesso!");
             }
             catch (ArgumentException arg)
@@ -262,7 +269,7 @@ namespace DeployAWS.API.Controllers
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(String id)
         {
             try
             {

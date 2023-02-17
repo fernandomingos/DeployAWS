@@ -4,7 +4,6 @@ using DeployAWS.Application.Interfaces;
 using DeployAWS.Domain.Core.Interfaces.Services;
 using DeployAWS.Domain.Entitys;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -78,7 +77,6 @@ namespace DeployAWS.Application
             _logger.LogInformation($"##### Executando request PostLoginAsync => ApplicationServiceCustomer username: {loginDto.UserName} #####");
             var login = _mapper.Map<Login>(loginDto);
             var customer = await _serviceCustomer.PostLoginAsync(login);
-
             var customerDto = _mapper.Map<CustomerDto>(customer);
 
             return customerDto;

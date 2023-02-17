@@ -73,9 +73,9 @@ namespace DeployAWS.Infrastructure.Data.Repositorys
         {
             try
             {
-                var customer = _appDbContext.Customers.FirstOrDefaultAsync(x => x.UserName == login.UserName && x.Password == login.Password).Result;
-                var customerEntity = await _appDbContext.Set<TEntity>().FindAsync(customer.Id);
-                return customerEntity;
+                var customer = await _appDbContext.Customers.FirstOrDefaultAsync(x => x.UserName == login.UserName && x.Password == login.Password);
+                //var customerEntity = await _appDbContext.Set<TEntity>().FindAsync(customer.Id);
+                return (TEntity)System.Convert.ChangeType(customer, typeof(TEntity));
             }
             catch (System.Exception ex)
             {

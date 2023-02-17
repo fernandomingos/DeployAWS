@@ -19,12 +19,15 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
             builder.RegisterType<ApplicationServiceCustomer>().As<IApplicationServiceCustomer>();
             builder.RegisterType<ApplicationServiceProduct>().As<IApplicationServiceProduct>();
             builder.RegisterType<ApplicationServiceUser>().As<IApplicationServiceUser>();
+            builder.RegisterType<ApplicationServiceOrder>().As<IApplicationServiceOrder>();
             builder.RegisterType<ServiceCustomer>().As<IServiceCustomer>();
             builder.RegisterType<ServiceProduct>().As<IServiceProduct>();
             builder.RegisterType<ServiceUser>().As<IServiceUser>();
+            builder.RegisterType<ServiceOrder>().As<IServiceOrder>();
             builder.RegisterType<RepositoryCustomer>().As<IRepositoryCustomer>();
             builder.RegisterType<RepositoryProduct>().As<IRepositoryProduct>();
             builder.RegisterType<RepositoryUser>().As<IRepositoryUser>();
+            builder.RegisterType<RepositoryOrder>().As<IRepositoryOrder>();
 
             builder.Register(ctx => new MapperConfiguration(cfg =>
             {
