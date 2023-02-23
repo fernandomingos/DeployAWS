@@ -37,6 +37,8 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
                 cfg.AddProfile(new ModelToDtoMappingProduct());
                 cfg.AddProfile(new DtoToModelMappingUser());
                 cfg.AddProfile(new ModelToDtoMappingUser());
+                cfg.AddProfile(new DtoToModelMappingLogin());
+                cfg.AddProfile(new ModelToDtoMappingLogin());
                 cfg.AddProfile(new DtoToModelMappingOrder());
                 cfg.AddProfile(new ModelToDtoMappingOrder());
 

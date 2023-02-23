@@ -1,6 +1,6 @@
 ﻿using DeployAWS.Domain.Core.Interfaces.Repositorys;
 using DeployAWS.Domain.Core.Interfaces.Services;
-using Microsoft.Extensions.Logging;
+using DeployAWS.Domain.Entitys;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -44,6 +44,11 @@ namespace DeployAWS.Domain.Services
         public void Update(TEntity obj)
         {
             _repository.Update(obj);
+        }
+
+        public async Task<TEntity> PostLoginAsync(Login login)
+        {
+            return await _repository.PostLoginAsync(login);
         }
     }
 }

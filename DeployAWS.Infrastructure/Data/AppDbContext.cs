@@ -19,22 +19,28 @@ namespace DeployAWS.Infrastructure.Data
                 .HasMaxLength(37);
 
             builder.Entity<Customer>()
-                .Property(p => p.UserName);
+                .Property(p => p.UserName)
+                .HasMaxLength(20);
 
             builder.Entity<Customer>()
-                .Property(p => p.FirstName);
+                .Property(p => p.FirstName)
+                .HasMaxLength(20);
 
             builder.Entity<Customer>()
-                .Property(p => p.LastName);
+                .Property(p => p.LastName)
+                .HasMaxLength(20);
 
             builder.Entity<Customer>()
-                .Property(p => p.EmailAddress);
+                .Property(p => p.EmailAddress)
+                .HasMaxLength(40);
 
             builder.Entity<Customer>()
-                .Property(p => p.Profile);
-            
+                .Property(p => p.Profile)
+                .HasMaxLength(20);
+
             builder.Entity<Customer>()
-                .Property(p => p.Password);
+                .Property(p => p.Password)
+                .HasMaxLength(16);
 
             builder.Entity<Customer>()
                 .Property(p => p.CreateDate);

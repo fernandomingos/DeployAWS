@@ -27,13 +27,6 @@ namespace DeployAWS.Application.Validator
             RuleFor(c => c.CreateDate).NotNull().NotEmpty();
 
             RuleFor(c => c.IsActive).NotNull().NotEmpty();
-
-            
-
-            RuleFor(c => c.LastName).NotNull().NotEmpty();
-            RuleFor(c => c.LastName).MaximumLength(80);
-
-            RuleFor(c => c.EmailAddress).NotNull().NotEmpty();
         }
     }
 }

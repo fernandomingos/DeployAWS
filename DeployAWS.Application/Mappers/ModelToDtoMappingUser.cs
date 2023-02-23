@@ -18,7 +18,7 @@ namespace DeployAWS.Application.Mappers
 
         private void CustomerMap()
         {
-            CreateMap<UserDto, User>()
+            CreateMap<User, UserDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(x => x.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(x => x.LastName))

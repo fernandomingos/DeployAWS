@@ -7,15 +7,23 @@ namespace DeployAWS.Application.Validator
     {
         public CustomerDtoValidator()
         {
-            RuleFor(c => c.FirstName).NotNull().NotEmpty();
-            RuleFor(c => c.FirstName).MaximumLength(80);
+            RuleFor(c => c.UserName).NotEmpty();
+            RuleFor(c => c.UserName).MaximumLength(20);
 
-            RuleFor(c => c.LastName).NotNull().NotEmpty();
-            RuleFor(c => c.LastName).MaximumLength(80);
+            RuleFor(c => c.FirstName).NotEmpty();
+            RuleFor(c => c.FirstName).MaximumLength(20);
 
-            RuleFor(c => c.EmailAddress).NotNull().NotEmpty();
+            RuleFor(c => c.LastName).NotEmpty();
+            RuleFor(c => c.LastName).MaximumLength(20);
 
-            RuleFor(c => c.Password).NotNull().NotEmpty();
+            RuleFor(p => p.Password).SetValidator(new PasswordValidator());
+
+            RuleFor(c => c.EmailAddress).NotEmpty()
+                .Matches(@"[\@]+").WithMessage("Formato de email inválido!");
+            RuleFor(c => c.EmailAddress).MaximumLength(40);
+
+            RuleFor(c => c.Profile).NotEmpty();
+            RuleFor(c => c.Profile).MaximumLength(20);
         }
     }
 }
