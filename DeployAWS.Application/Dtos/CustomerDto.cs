@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DeployAWS.Application.Dtos
 {
     public class CustomerDto
     {
+        [JsonIgnore]
         public String Id { get; private set;  }
         [Required]
         public String UserName { get; set; }

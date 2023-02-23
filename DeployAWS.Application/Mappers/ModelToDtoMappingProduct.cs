@@ -16,6 +16,7 @@ namespace DeployAWS.Application.Mappers
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(x => x.Name))
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(x => x.Value))
+                .ForMember(dest => dest.Amount, opt => opt.MapFrom(x => x.Amount))
                 .ForMember(dest => dest.IsAvaiable, opt => opt.MapFrom(x => x.IsAvaiable));
         }
     }
