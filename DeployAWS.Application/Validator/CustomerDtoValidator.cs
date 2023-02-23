@@ -16,15 +16,10 @@ namespace DeployAWS.Application.Validator
             RuleFor(c => c.LastName).NotEmpty();
             RuleFor(c => c.LastName).MaximumLength(20);
 
-            RuleFor(p => p.Password)
-                .MinimumLength(8).WithMessage("O tamanho da sua senha deve ser de pelo menos 8 dígitos.")
-                .MaximumLength(16).WithMessage("O tamanho da sua senha não deve exceder 16 dígitos")
-                .Matches(@"[A-Z]+").WithMessage("Sua senha deve conter pelo menos uma letra maiúscula.")
-                .Matches(@"[a-z]+").WithMessage("Sua senha deve conter pelo menos uma letra minúscula.")
-                .Matches(@"[0-9]+").WithMessage("Sua senha deve conter pelo menos um número.")
-                .Matches(@"[\!\?\*\.]+").WithMessage("Sua senha deve conter pelo menos um carácter especial (!? *.)");
+            RuleFor(p => p.Password).SetValidator(new PasswordValidator());
 
-            RuleFor(c => c.EmailAddress).NotEmpty();
+            RuleFor(c => c.EmailAddress).NotEmpty()
+                .Matches(@"[\@]+").WithMessage("Formato de email inválido!");
             RuleFor(c => c.EmailAddress).MaximumLength(40);
 
             RuleFor(c => c.Profile).NotEmpty();

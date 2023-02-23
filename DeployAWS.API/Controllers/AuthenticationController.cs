@@ -21,33 +21,37 @@ namespace DeployAWS.API.Controllers
         private readonly IApplicationServiceCustomer _applicationServiceCustomer;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthenticationController> _logger;
-        private readonly IValidator<LoginDto> _validator;
+        private readonly IValidator<LoginDto> _validatorLogin;
+        private readonly IValidator<ChangePasswordDto> _validatorChangePassword;
 
         public AuthenticationController(IApplicationServiceCustomer applicationServiceCustomer, IConfiguration configuration
-            , ILogger<AuthenticationController> logger, IValidator<LoginDto> validator)
+            , ILogger<AuthenticationController> logger
+            , IValidator<LoginDto> validatorLogin
+            , IValidator<ChangePasswordDto> validatorChangePassword)
         {
             _applicationServiceCustomer = applicationServiceCustomer;
             _configuration = configuration;
             _logger = logger;
-            _validator = validator;
+            _validatorLogin = validatorLogin;
+            _validatorChangePassword = validatorChangePassword;
         }
 
         /// <summary>
         /// Recupera objeto login pelo username e password.
         /// </summary>
-        /// <param name="login"></param>
+        /// <param name="loginDto"></param>
         /// <response code="200">Retorna um objeto de autenticação</response>
         /// <response code="404">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authentication([FromBody] LoginDto login)
+        public async Task<IActionResult> Authentication([FromBody] LoginDto loginDto)
         {
             try
             {
                 _logger.LogInformation($"##### Executando requisição Authentication => AuthenticationController #####");
-                var customerDto = await _applicationServiceCustomer.PostLoginAsync(login);
+                var customerDto = await _applicationServiceCustomer.LoginAsync(loginDto);
 
                 if (customerDto == null)
                 {
@@ -72,30 +76,45 @@ namespace DeployAWS.API.Controllers
         }
 
         /// <summary>
-        /// Recupera objeto login pelo username e password.
+        /// Promove a alteração de senha de acesso
         /// </summary>
-        /// <param name="login"></param>
-        /// <response code="200">Retorna um objeto de autenticação</response>
+        /// <param name="changePasswordDto"></param>
+        /// <response code="200">Retorna mensagem de sucesso</response>
         /// <response code="404">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
         [HttpPost]
         [Route("change-password")]
         [AllowAnonymous]
-        public async Task<IActionResult> PostChangePassword([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordDto changePasswordDto)
         {
             try
             {
-                _logger.LogInformation($"##### Executando requisição PostChangePassword => AuthenticationController #####");
-                var result = _validator.Validate(loginDto);
+                // Validar dados de entrada:
+                _logger.LogInformation($"##### Executando requisição ChangePasswordAsync => AuthenticationController #####");
+                var result = _validatorChangePassword.Validate(changePasswordDto);
+
+                //Validar se senhas novas são iguais
+                if (changePasswordDto.NewPassword != changePasswordDto.ConfirmNewPassword)
+                {
+                    _logger.LogInformation($"##### Validação de senhas: As senhas digitadas não coincidem! {changePasswordDto.UserName} #####");
+                    return BadRequest(new { Message = "As senha digitadas não coincidem" });
+                }
 
                 if (!result.IsValid)
                 {
-                    _logger.LogInformation($"##### Executando requisição PostChangePassword => AuthenticationController #####");
-                    return BadRequest(result.Errors.Select(x => x.ErrorMessage).ToArray());
+                    _logger.LogInformation($"##### Executando requisição ChangePasswordAsync => AuthenticationController #####");
+                    return BadRequest(result.Errors);
                 }
 
-                _logger.LogInformation($"##### Executando requisição PostChangePassword => AuthenticationController #####");
-                var customerDto = await _applicationServiceCustomer.PostLoginAsync(loginDto);
+                // Validar se senha enviada está correta está correta.
+                var loginDto = new LoginDto
+                {
+                    UserName = changePasswordDto.UserName,
+                    Password = changePasswordDto.ActualPassword
+                };
+
+                _logger.LogInformation($"##### Executando requisição LoginAsync => CustomerController #####");
+                var customerDto = await _applicationServiceCustomer.LoginAsync(loginDto);
 
                 if (customerDto == null)
                 {
@@ -103,8 +122,9 @@ namespace DeployAWS.API.Controllers
                     return BadRequest(new { Message = "Usuário inválido." });
                 }
 
+                //atualizando a entidade com a senha nova
+                customerDto.ChangePassword(changePasswordDto.NewPassword);
                 customerDto.AddModifiedDate();
-                customerDto.ChangePassord(loginDto.Password);
 
                 _logger.LogInformation($"##### Executando requisição Update => CustomerController #####");
                 _applicationServiceCustomer.Update(customerDto);

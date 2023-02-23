@@ -33,7 +33,7 @@ namespace DeployAWS.Application.Dtos
         public void AddModifiedDate() =>
             ModifiedDate = DateTime.Now;
 
-        public void ChangePassord(string password) => 
+        public void ChangePassword(string password) => 
             Password = password;
 
     }

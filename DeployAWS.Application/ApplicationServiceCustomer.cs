@@ -72,7 +72,7 @@ namespace DeployAWS.Application
             _serviceCustomer.Update(customer);
         }
 
-        public async Task<CustomerDto> PostLoginAsync(LoginDto loginDto)
+        public async Task<CustomerDto> LoginAsync(LoginDto loginDto)
         {
             _logger.LogInformation($"##### Executando request PostLoginAsync => ApplicationServiceCustomer username: {loginDto.UserName} #####");
             var login = _mapper.Map<Login>(loginDto);
