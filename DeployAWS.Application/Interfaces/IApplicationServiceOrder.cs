@@ -7,7 +7,7 @@ namespace DeployAWS.Application.Interfaces
 {
     public interface IApplicationServiceOrder
     {
-        Order Add(OrderDto orderDto);
+        void Add(OrderDto orderDto);
 
         void Update(OrderDto orderDto);
 

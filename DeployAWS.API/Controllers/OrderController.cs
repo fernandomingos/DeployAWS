@@ -16,13 +16,11 @@ namespace DeployAWS.API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IApplicationServiceOrder _applicationServiceOrder;
-        private readonly IValidator<OrderDto> _validator;
         private readonly ILogger<OrderController> _logger;
 
-        public OrderController(IApplicationServiceOrder applicationServiceOrder, IValidator<OrderDto> validator, ILogger<OrderController> logger)
+        public OrderController(IApplicationServiceOrder applicationServiceOrder, ILogger<OrderController> logger)
         {
             _applicationServiceOrder = applicationServiceOrder;
-            _validator = validator;
             _logger = logger;
         }
 
@@ -55,6 +53,33 @@ namespace DeployAWS.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Uma exceção ocorreu durante a execução da API GET => Order {ex}");
+                return StatusCode(500, ex);
+            }
+        }
+
+        /// <summary>
+        /// Envia uma solicitação de compra
+        /// </summary>
+        /// <response code="200">Retorna uma lista de pedidos!</response>
+        /// <response code="404">Não há conteúdo para ser exibido!</response>
+        /// <response code="500">Erro interno de processamento!</response>
+        [HttpPost]
+        //[Authorize(Roles = "admin, client")]
+        [ProducesResponseType(typeof(List<OrderDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult Post([FromBody] OrderDto orderDto)
+        {
+            try
+            {
+                _logger.LogInformation("##### Enviando requisição Post => OrderController #####");
+                _applicationServiceOrder.Add(orderDto);
+
+                return Accepted();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Uma exceção ocorreu durante requisição Post => Order {ex}");
                 return StatusCode(500, ex);
             }
         }

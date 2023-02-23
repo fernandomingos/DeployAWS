@@ -14,5 +14,7 @@ namespace DeployAWS.Domain.Entitys
         public decimal Value { get; set; }
         [BsonElement]
         public bool IsAvaiable { get; set; }
+        [BsonElement]
+        public int Amount { get; set; }
     }
 }
