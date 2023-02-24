@@ -1,9 +1,11 @@
 ﻿using AutoFixture;
 using AutoMapper;
+using DeployAWS.API.Controllers;
 using DeployAWS.Application;
 using DeployAWS.Application.Dtos;
 using DeployAWS.Domain.Core.Interfaces.Services;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -16,12 +18,14 @@ namespace DeployAWS.MSTest.Product.ApplicationService
         private static Fixture _fixture;
         private Mock<IServiceProduct> _serviceProductMock;
         private Mock<IMapper> _mapperMock;
+        private readonly Mock<ILogger<ApplicationServiceProduct>> _logger;
 
         public ProductApplicationServiceTest()
         {
             _fixture = new Fixture();
             _serviceProductMock = new Mock<IServiceProduct>();
             _mapperMock = new Mock<IMapper>();
+            _logger = new Mock<ILogger<ApplicationServiceProduct>>();
         }
 
         [TestMethod]
@@ -32,7 +36,7 @@ namespace DeployAWS.MSTest.Product.ApplicationService
             var productsDto = _fixture.Build<ProductDto>().CreateMany(7);
             _serviceProductMock.Setup(x => x.GetAllAsync().Result).Returns(products);
             _mapperMock.Setup(x => x.Map<IEnumerable<ProductDto>>(products)).Returns(productsDto);
-            var applicationServiceProduct = new ApplicationServiceProduct(_serviceProductMock.Object, _mapperMock.Object);
+            var applicationServiceProduct = new ApplicationServiceProduct(_serviceProductMock.Object, _mapperMock.Object, _logger.Object);
 
             //Act
             var response = applicationServiceProduct.GetAllAsync();
@@ -66,7 +70,7 @@ namespace DeployAWS.MSTest.Product.ApplicationService
             _serviceProductMock.Setup(x => x.GetByIdAsync(IdMock).Result).Returns(product);
             _mapperMock.Setup(x => x.Map<ProductDto>(product)).Returns(productDto);
 
-            var applicationServiceProduct = new ApplicationServiceProduct(_serviceProductMock.Object, _mapperMock.Object);
+            var applicationServiceProduct = new ApplicationServiceProduct(_serviceProductMock.Object, _mapperMock.Object, _logger.Object);
 
             //Act
             var response = applicationServiceProduct.GetByIdAsync(IdMock);

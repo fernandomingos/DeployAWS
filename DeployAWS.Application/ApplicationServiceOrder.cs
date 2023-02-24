@@ -1,79 +1,50 @@
-﻿using Amazon.Runtime.Internal.Auth;
-using AutoMapper;
+﻿using AutoMapper;
 using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
 using DeployAWS.Domain.Core.Interfaces.Services;
+using DeployAWS.Domain.Entitys;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeployAWS.Application
 {
     public class ApplicationServiceOrder : IApplicationServiceOrder
     {
-        private const string QUEUE_NAME = "orders";
-        private readonly IServiceOrder _serviceOrder;
         private readonly IMapper _mapper;
-        private readonly ConnectionFactory _connectionFactory; 
+        private readonly IServiceRabbitMQ _serviceRabbitMQ;
+        private readonly ILogger<ApplicationServiceOrder> _logger;
 
-        public ApplicationServiceOrder(IServiceOrder serviceOrder, IMapper mapper)
+        public ApplicationServiceOrder(IServiceRabbitMQ serviceRabbitMQ, IMapper mapper, ILogger<ApplicationServiceOrder> logger)
         {
-            _serviceOrder = serviceOrder;
+            _serviceRabbitMQ = serviceRabbitMQ;
             _mapper = mapper;
-            _connectionFactory = new ConnectionFactory() 
-            { 
-                HostName = "localhost",
-                UserName = "admin",
-                Password = "q1w2e3r4",
-                VirtualHost = "/"
-            };
+            _logger = logger;
         }
+
         public void Add(OrderDto orderDto)
         {
+            _logger.LogInformation($"##### Executando request Add => ApplicationServiceOrder order.id: {orderDto.Id} #####");
             orderDto.AddNewId();
             orderDto.AddCreateDate();
             orderDto.AddCreatedStatus();
 
-            try
-            {
-                using (var connection = _connectionFactory.CreateConnection())
-                {
-                    using (var channel = connection.CreateModel())
-                    {
-                        channel.QueueDeclare(
-                            queue: QUEUE_NAME,
-                            durable: false,
-                            exclusive: false,
-                            autoDelete: false,
-                            arguments: null
-                            );
+            var order = _mapper.Map<Order>(orderDto);
+            var message = JsonConvert.SerializeObject(order);
 
-                        var bodyMessage = JsonConvert.SerializeObject(orderDto);
-                        var byteArray = Encoding.UTF8.GetBytes(bodyMessage);
-
-                        channel.BasicPublish(
-                            exchange: string.Empty,
-                            routingKey: QUEUE_NAME,
-                            basicProperties: null,
-                            body: byteArray
-                            );
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            _serviceRabbitMQ.Producer(message);
         }
 
-        public Task<IEnumerable<OrderDto>> GetAllAsync()
+        public IEnumerable<OrderDto> Get()
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"##### Executando request Get => ApplicationServiceOrder #####");
+            var message = _serviceRabbitMQ.Consumer();
+
+            var orderDTO = JsonConvert.DeserializeObject<OrderDto>(message);
+
+            return new List<OrderDto>();
         }
 
         public Task<OrderDto> GetByIdAsync(string id)

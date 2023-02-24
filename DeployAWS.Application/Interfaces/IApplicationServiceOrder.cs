@@ -13,7 +13,7 @@ namespace DeployAWS.Application.Interfaces
 
         bool Remove(string id);
 
-        Task<IEnumerable<OrderDto>> GetAllAsync();
+        IEnumerable<OrderDto> Get();
 
         Task<OrderDto> GetByIdAsync(string id);
     }

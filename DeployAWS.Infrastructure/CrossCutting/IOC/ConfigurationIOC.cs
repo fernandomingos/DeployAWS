@@ -24,6 +24,7 @@ namespace DeployAWS.Infrastructure.CrossCutting.IOC
             builder.RegisterType<ServiceProduct>().As<IServiceProduct>();
             builder.RegisterType<ServiceUser>().As<IServiceUser>();
             builder.RegisterType<ServiceOrder>().As<IServiceOrder>();
+            builder.RegisterType<ServiceRabbitMQ>().As<IServiceRabbitMQ>();
             builder.RegisterType<RepositoryCustomer>().As<IRepositoryCustomer>();
             builder.RegisterType<RepositoryProduct>().As<IRepositoryProduct>();
             builder.RegisterType<RepositoryUser>().As<IRepositoryUser>();
