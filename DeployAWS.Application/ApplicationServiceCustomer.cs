@@ -24,8 +24,8 @@ namespace DeployAWS.Application
 
         public Customer Add(CustomerDto customerDto)
         {
-            _logger.LogInformation($"##### Executando API Add => ApplicationServiceCustomer #####");
             var customer = _mapper.Map<Customer>(customerDto);
+            _logger.LogInformation($"##### Executando request Add => ApplicationServiceCustomer #####");
             _serviceCustomer.Add(customer);
 
             return customer;
@@ -51,7 +51,7 @@ namespace DeployAWS.Application
 
         public bool Remove(string id)
         {
-            _logger.LogInformation($"##### Executando request Remove => ApplicationServiceCustomer id: {id} #####");
+            _logger.LogInformation($"##### Executando request GetByIdAsync => ApplicationServiceCustomer id: {id} #####");
             var customer = _serviceCustomer.GetByIdAsync(id);
 
             if (customer.Result == null)
@@ -60,6 +60,7 @@ namespace DeployAWS.Application
                 return false;
             }
 
+            _logger.LogInformation($"##### Executando request Remove => ApplicationServiceCustomer id: {id} #####");
             _serviceCustomer.Remove(id);
 
             return true;
@@ -67,16 +68,17 @@ namespace DeployAWS.Application
 
         public void Update(CustomerDto customerDto)
         {
-            _logger.LogInformation($"##### Executando request Update => ApplicationServiceCustomer id: {customerDto.Id} #####");
             var customer = _mapper.Map<Customer>(customerDto);
+            _logger.LogInformation($"##### Executando request Update => ApplicationServiceCustomer id: {customerDto.Id} #####");
             _serviceCustomer.Update(customer);
         }
 
         public async Task<CustomerDto> LoginAsync(LoginDto loginDto)
         {
-            _logger.LogInformation($"##### Executando request PostLoginAsync => ApplicationServiceCustomer username: {loginDto.UserName} #####");
             var login = _mapper.Map<Login>(loginDto);
+            _logger.LogInformation($"##### Executando request PostLoginAsync => ApplicationServiceCustomer username: {loginDto.UserName} #####");
             var customer = await _serviceCustomer.PostLoginAsync(login);
+
             var customerDto = _mapper.Map<CustomerDto>(customer);
 
             return customerDto;

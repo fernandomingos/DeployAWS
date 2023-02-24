@@ -11,11 +11,8 @@ namespace DeployAWS.Application.Dtos
         public String Id { get; set; }
         [Required]
         public ICollection<ProductDto> Items { get; set; }
-        [JsonIgnore]
-        public String Status { get; private set; }
-        [JsonIgnore]
-        public DateTime CreateDate { get; private set; }
-        [JsonIgnore]
+        public String Status { get; set; }
+        public DateTime CreateDate { get; set; }
         public DateTime ModifiedDate { get; private set; }
 
         public void AddNewId()
