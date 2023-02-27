@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeployAWS.API.Controllers
@@ -84,7 +83,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="500">Erro interno de processamento</response>
         [HttpPost]
         [Route("change-password")]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin, client")]
         public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordDto changePasswordDto)
         {
             try

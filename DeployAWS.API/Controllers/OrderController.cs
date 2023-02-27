@@ -1,5 +1,6 @@
 ﻿using DeployAWS.Application.Dtos;
 using DeployAWS.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 
 namespace DeployAWS.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("v1/order")]
     [ApiController]
     [Produces("application/json")]
     public class OrderController : ControllerBase
@@ -29,7 +30,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento!</response>
         [HttpGet]
-        //[Authorize(Roles = "admin, client")]
+        [Authorize(Roles = "admin, client")]
         [ProducesResponseType(typeof(List<OrderDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -62,7 +63,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento!</response>
         [HttpPost]
-        //[Authorize(Roles = "admin, client")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(String), StatusCodes.Status202Accepted)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DeployAWS.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("v1/product")]
     [ApiController]
     [Produces("application/json")]
     public class ProductController : ControllerBase
@@ -40,7 +40,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento</response>
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin, client")]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -78,7 +78,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = "admin, client")]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -128,7 +128,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido</response>
         /// <response code="500">Erro interno de processamento</response>
         [HttpPost]
-        [Authorize]
+        [Authorize("admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
@@ -148,14 +148,11 @@ namespace DeployAWS.API.Controllers
                 var result = _validator.Validate(productDTO);
 
                 if (!result.IsValid)
-                {
                     return BadRequest(result.Errors);
-                }
 
                 _applicationServiceProduct.CreateAsync(productDTO);
 
                 return Ok(productDTO);
-                //return Ok("O produto foi cadastrado com sucesso");
             }
             catch (ArgumentException arg)
             {
@@ -194,6 +191,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="400">Retorno caso as propriedades informadas não estejam corretas</response>
         /// <response code="500">Erro interno de processamento</response>
         [HttpPut]
+        [Authorize("admin")]
         public ActionResult Put([FromBody] ProductDto productDTO)
         {
             try
@@ -243,7 +241,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="400">Retorno caso produto não exista</response>
         /// <response code="500">Erro interno de processamento</response> 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize("admin")]
         [ProducesResponseType(typeof(OkResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

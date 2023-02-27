@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DeployAWS.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("v1/customer")]
     [ApiController]
     [Produces("application/json")]
     public class CustomerController : ControllerBase
@@ -37,7 +37,7 @@ namespace DeployAWS.API.Controllers
         /// <response code="404">Não há conteúdo para ser exibido!</response>
         /// <response code="500">Erro interno de processamento!</response>
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin, client")]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
